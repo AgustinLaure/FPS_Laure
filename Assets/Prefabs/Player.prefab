@@ -101,7 +101,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1597992830209495534}
-  m_Material: {fileID: 13400000, guid: 7b031f4eabb3423499d3bdb3bfb5a2c6, type: 2}
+  m_Material: {fileID: 13400000, guid: c5710e1b14b184441baf58cd63353b69, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -142,7 +142,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &6376285935465204186
 MonoBehaviour:
@@ -156,8 +156,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1538cd63ee5c33449984e301bd1a0966, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  accel: 30
-  terminalVelocity: 4
+  accel: 40
+  terminalVelocity: 20
+  horizontalSensitivity: 90
+  verticalSensitivity: 90
+  linearDamping: 6.5
+  cameraTransform: {fileID: 7725345306421178056}
 --- !u!1 &4469526876995106320
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,13 +189,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4469526876995106320}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.05216211, y: -0, z: -0, w: 0.9986387}
-  m_LocalPosition: {x: 0, y: 1.45, z: -7.94}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.47, z: 0.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 705893631823571483}
-  m_LocalEulerAnglesHint: {x: 5.98, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &3305747329050904116
 Camera:
   m_ObjectHideFlags: 0
