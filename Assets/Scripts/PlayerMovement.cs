@@ -55,9 +55,7 @@ public class PlayerMovement : MonoBehaviour
 
         isOnAir = !Physics.CheckBox(floorDetection.bounds.center, floorDetection.bounds.extents, floorDetection.transform.rotation, groundLayer, QueryTriggerInteraction.Ignore);
 
-        Debug.Log(isOnAir);
-
-        if (Input.GetAxisRaw("Jump") != 0f && !isOnAir)
+        if (Input.GetButton("Jump") && !isOnAir)
         {
             isJump = true;
             rb.linearDamping = 0f;
