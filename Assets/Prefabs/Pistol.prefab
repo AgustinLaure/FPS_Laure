@@ -51,6 +51,9 @@ MonoBehaviour:
   timePerShot: 0.7
   damage: 10
   shootDistance: 100
+  recoilDistance: 0.1
+  recoilKickTime: 0.02
+  recoilRecoverTime: 0.1
 --- !u!1001 &140559779930780703
 PrefabInstance:
   m_ObjectHideFlags: 0

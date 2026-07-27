@@ -1,6 +1,7 @@
+using System.Collections;
 using UnityEngine;
 
 public class Rifle : Gun
 {
-    //Rifle animation
+   //Bolt animation etc
 }

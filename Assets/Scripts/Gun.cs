@@ -10,6 +10,11 @@ public abstract class Gun : MonoBehaviour
     [SerializeField] private float damage;
     [SerializeField] private float shootDistance = 100f;
 
+    [SerializeField] private float recoilDistance;
+
+    [SerializeField] private float recoilKickTime;
+    [SerializeField] private float recoilRecoverTime;
+
     private LayerMask ownerMask;
 
     public LayerMask SetOwnerMask { set { ownerMask = value; } }
@@ -18,11 +23,18 @@ public abstract class Gun : MonoBehaviour
 
     private float currentAmmo;
     private Coroutine reloadCoroutine = null;
+    private Vector3 originalLocalPos;
+    private Coroutine recoilCoroutine = null;
 
     private void Awake()
     {
-        ownerMask = ~ownerMask;
         currentAmmo = maxAmmo;
+    }
+
+    private void Start()
+    {
+        originalLocalPos = transform.localPosition;
+        ownerMask = ~ownerMask;
     }
 
     private void Update()
@@ -32,7 +44,7 @@ public abstract class Gun : MonoBehaviour
         Debug.Log("current ammo = " + currentAmmo);
     }
 
-    public void Shoot(Vector3 shootPos, Vector3 shootDir)
+    public virtual void Shoot(Vector3 shootPos, Vector3 shootDir)
     {
         if (currentAmmo > 0f && shootCooldown <= 0f && reloadCoroutine == null)
         {
@@ -48,12 +60,19 @@ public abstract class Gun : MonoBehaviour
                 }
             }
 
+            if (recoilCoroutine != null)
+            {
+                StopCoroutine(recoilCoroutine);
+            }
+
+            recoilCoroutine = StartCoroutine(RecoilCoroutine());
+
             currentAmmo--;
             shootCooldown = timePerShot;
         }
     }
 
-    public void Reload()
+    public virtual void Reload()
     {
         if (reloadCoroutine == null && currentAmmo < maxAmmo)
         {
@@ -72,5 +91,38 @@ public abstract class Gun : MonoBehaviour
         reloadCoroutine = null;
 
         Debug.Log("termino de recargar");
+    }
+
+    private IEnumerator RecoilCoroutine()
+    {
+        Vector3 kickDir = Vector3.Normalize(-Vector3.forward + (Vector3.right / 2f));
+        Vector3 startingPos = transform.localPosition;
+        Vector3 endingPos = originalLocalPos + kickDir * recoilDistance;
+
+        float kickDistance = Vector3.Magnitude(endingPos - startingPos);
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < 1f)
+        {
+            elapsedTime += Time.deltaTime / recoilKickTime;
+
+            transform.localPosition = Vector3.Lerp(startingPos, endingPos, elapsedTime);
+
+            yield return null;
+        }
+
+        elapsedTime = 0f;
+
+        endingPos = transform.localPosition;
+
+        while (elapsedTime < 1f)
+        {
+            elapsedTime += Time.deltaTime / recoilRecoverTime;
+
+            transform.localPosition = Vector3.Lerp(endingPos, originalLocalPos, elapsedTime);
+
+            yield return null;
+        }
     }
 }
