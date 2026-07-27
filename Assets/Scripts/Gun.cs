@@ -9,6 +9,7 @@ public abstract class Gun : MonoBehaviour
     [SerializeField] protected float timePerShot;
     [SerializeField] private float damage;
     [SerializeField] private float shootDistance = 100f;
+
     private LayerMask ownerMask;
 
     public LayerMask SetOwnerMask { set { ownerMask = value; } }
