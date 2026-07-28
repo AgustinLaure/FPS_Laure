@@ -3,6 +3,7 @@ using System.Collections;
 
 public abstract class Gun : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem muzzleParticle;
     [SerializeField] private GameObject bulletImpactDecalPrefab;
     [SerializeField] protected float maxAmmo;
     [SerializeField] protected float reloadTime;
@@ -82,6 +83,8 @@ public abstract class Gun : MonoBehaviour
             {
                 StopCoroutine(recoilCoroutine);
             }
+
+            muzzleParticle.Play();
 
             recoilCoroutine = StartCoroutine(RecoilCoroutine());
 

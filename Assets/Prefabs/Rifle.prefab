@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1570239140129044814}
+  - {fileID: 5932468279276544452}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &378881220311926253
@@ -45,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81c62e8597ace634c9308a1fba5298ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Rifle
+  muzzleParticle: {fileID: 3098484757517826761}
   bulletImpactDecalPrefab: {fileID: 7805554402801404176, guid: b596babd4b9cea045bcbaba4fb3c7857, type: 3}
   maxAmmo: 30
   reloadTime: 2
@@ -259,6 +261,77 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 58b13ebf0b783eb40abfa7dc4b4a5d57, type: 3}
   m_PrefabInstance: {fileID: 2707542486806215594}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5268673299281018303
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5342514831525749061}
+    m_Modifications:
+    - target: {fileID: 1471699202397221797, guid: 157c7c8999a98ac4190c399d7350996b, type: 3}
+      propertyPath: m_Name
+      value: RifleShotParticle
+      objectReference: {fileID: 0}
+    - target: {fileID: 1966465570802490491, guid: 157c7c8999a98ac4190c399d7350996b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1966465570802490491, guid: 157c7c8999a98ac4190c399d7350996b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.1252
+      objectReference: {fileID: 0}
+    - target: {fileID: 1966465570802490491, guid: 157c7c8999a98ac4190c399d7350996b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5902
+      objectReference: {fileID: 0}
+    - target: {fileID: 1966465570802490491, guid: 157c7c8999a98ac4190c399d7350996b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1966465570802490491, guid: 157c7c8999a98ac4190c399d7350996b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1966465570802490491, guid: 157c7c8999a98ac4190c399d7350996b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1966465570802490491, guid: 157c7c8999a98ac4190c399d7350996b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1966465570802490491, guid: 157c7c8999a98ac4190c399d7350996b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1966465570802490491, guid: 157c7c8999a98ac4190c399d7350996b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1966465570802490491, guid: 157c7c8999a98ac4190c399d7350996b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7070107204110845814, guid: 157c7c8999a98ac4190c399d7350996b, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.8
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 157c7c8999a98ac4190c399d7350996b, type: 3}
+--- !u!198 &3098484757517826761 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7070107204110845814, guid: 157c7c8999a98ac4190c399d7350996b, type: 3}
+  m_PrefabInstance: {fileID: 5268673299281018303}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5932468279276544452 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1966465570802490491, guid: 157c7c8999a98ac4190c399d7350996b, type: 3}
+  m_PrefabInstance: {fileID: 5268673299281018303}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5984298504907572899
 PrefabInstance:
