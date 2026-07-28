@@ -87,7 +87,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1597992830209495534}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -214,15 +214,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   cameraTransform: {fileID: 7725345306421178056}
-  gunLayerMask:
-    serializedVersion: 2
-    m_Bits: 256
+  gunsContainer: {fileID: 2487616986989481111}
   gunPresets:
   - {fileID: 317095737649723670}
   - {fileID: 1035013290188012942}
   gunPrefabs:
   - {fileID: 7671228712512202586, guid: 55fcdf17d2a0c7a40896270d9e211f2b, type: 3}
   - {fileID: 2101551130978625606, guid: 1081fab57890a4e479ee0389bbeb7829, type: 3}
+--- !u!1 &2487616986989481111
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4899860669806822547}
+  m_Layer: 7
+  m_Name: GunContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4899860669806822547
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2487616986989481111}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.47, z: -0.41}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7725345306421178056}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4083834632222252307
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,7 +262,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8371198767996414816}
   - component: {fileID: 1396987106523606053}
-  - component: {fileID: 2837005926861301884}
   - component: {fileID: 798449695989513799}
   m_Layer: 0
   m_Name: GunCamera
@@ -308,14 +336,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &2837005926861301884
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4083834632222252307}
-  m_Enabled: 1
 --- !u!114 &798449695989513799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,7 +393,7 @@ GameObject:
   - component: {fileID: 2716455956114219356}
   - component: {fileID: 1665352028726937385}
   m_Layer: 7
-  m_Name: Camera
+  m_Name: MainCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -388,11 +408,12 @@ Transform:
   m_GameObject: {fileID: 4469526876995106320}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.47, z: 0.41}
+  m_LocalPosition: {x: 0, y: 0.47, z: 0.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8371198767996414816}
+  - {fileID: 4899860669806822547}
   m_Father: {fileID: 705893631823571483}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &3305747329050904116
@@ -470,7 +491,8 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras: []
+  m_Cameras:
+  - {fileID: 1396987106523606053}
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2

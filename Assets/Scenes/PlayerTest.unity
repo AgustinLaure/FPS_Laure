@@ -253,11 +253,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &82727447 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7725345306421178056, guid: 15295e118f3ec1844b5ac034a128b32b, type: 3}
-  m_PrefabInstance: {fileID: 6758881961488077922}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -702,37 +697,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1099726140
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1099726141}
-  m_Layer: 7
-  m_Name: GunContainer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1099726141
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1099726140}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.47, z: -0.41}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 82727447}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1923476927
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,37 +879,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 798449695989513799, guid: 15295e118f3ec1844b5ac034a128b32b, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 798449695989513799, guid: 15295e118f3ec1844b5ac034a128b32b, type: 3}
-      propertyPath: m_CameraType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1396987106523606053, guid: 15295e118f3ec1844b5ac034a128b32b, type: 3}
-      propertyPath: m_Depth
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1597992830209495534, guid: 15295e118f3ec1844b5ac034a128b32b, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3305747329050904116, guid: 15295e118f3ec1844b5ac034a128b32b, type: 3}
-      propertyPath: m_Depth
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3714796174392491598, guid: 15295e118f3ec1844b5ac034a128b32b, type: 3}
-      propertyPath: gunsContainer
-      value: 
-      objectReference: {fileID: 1099726140}
-    m_RemovedComponents:
-    - {fileID: 2837005926861301884, guid: 15295e118f3ec1844b5ac034a128b32b, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 7725345306421178056, guid: 15295e118f3ec1844b5ac034a128b32b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1099726141}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15295e118f3ec1844b5ac034a128b32b, type: 3}
 --- !u!1660057539 &9223372036854775807

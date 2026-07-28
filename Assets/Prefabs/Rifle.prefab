@@ -238,6 +238,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 58b13ebf0b783eb40abfa7dc4b4a5d57, type: 3}
+      propertyPath: m_CastShadows
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 58b13ebf0b783eb40abfa7dc4b4a5d57, type: 3}
       propertyPath: m_Name
       value: SM_AR_01_Scope_Default
@@ -307,6 +311,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 678932775f999f64188ebf0674396b88, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 678932775f999f64188ebf0674396b88, type: 3}
+      propertyPath: m_CastShadows
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 678932775f999f64188ebf0674396b88, type: 3}
       propertyPath: m_Name
