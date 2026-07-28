@@ -1,13 +1,16 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public abstract class Gun : MonoBehaviour
 {
+    public event Action<int> OnCurrentAmmoValueChanged;
+
     [SerializeField] private ParticleSystem muzzleParticle;
     [SerializeField] private GameObject bulletImpactDecalPrefab;
-    [SerializeField] protected float maxAmmo;
-    [SerializeField] protected float reloadTime;
-    [SerializeField] protected float timePerShot;
+    [SerializeField] private int maxAmmo;
+    [SerializeField] private float reloadTime;
+    [SerializeField] private float timePerShot;
     [SerializeField] private float damage;
     [SerializeField] private float shootDistance = 100f;
 
@@ -20,9 +23,14 @@ public abstract class Gun : MonoBehaviour
 
     public LayerMask SetOwnerMask { set { ownerMask = value; } }
 
+    public float GetCurrentAmmo { get { return currentAmmo; } }
+
+    public float GetMaxAmmo { get { return maxAmmo; } }
+
+
     private float shootCooldown = 0f;
 
-    private float currentAmmo;
+    private int currentAmmo;
     private Coroutine reloadCoroutine = null;
     private Vector3 originalLocalPos;
     private Coroutine recoilCoroutine = null;
@@ -90,6 +98,8 @@ public abstract class Gun : MonoBehaviour
 
             currentAmmo--;
             shootCooldown = timePerShot;
+
+            OnCurrentAmmoValueChanged?.Invoke(currentAmmo);
         }
     }
 
@@ -105,13 +115,11 @@ public abstract class Gun : MonoBehaviour
     {
         yield return new WaitForSeconds(reloadTime);
 
-        Debug.Log("empezo a recargar");
-
         currentAmmo = maxAmmo;
 
         reloadCoroutine = null;
 
-        Debug.Log("termino de recargar");
+        OnCurrentAmmoValueChanged?.Invoke(currentAmmo);
     }
 
     private IEnumerator RecoilCoroutine()

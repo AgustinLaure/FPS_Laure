@@ -1,124 +1,98 @@
-using System.Collections.Generic;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
+
 
 public class PlayerAction : MonoBehaviour
 {
-    enum CurrentTool
-    {
-        None = -1,
-        Rifle,
-        Pistol
-    }
-
     [SerializeField] private Transform cameraTransform;
-
-    [SerializeField] private GameObject gunsContainer;
-
-    [SerializeField] private Transform[] gunPresets;
-    [SerializeField] private GameObject[] gunPrefabs;
-
-    private List<Gun> guns = new List<Gun>();
-
-    private CurrentTool currentTool;
+    private Player player;
 
     private Coroutine swapGunCoroutine = null;
-    private Coroutine drawGunCoroutine = null;
 
     private void Awake()
     {
-        AddGun(CurrentTool.Rifle, false);
-        AddGun(CurrentTool.Pistol, true);
+        player = gameObject.GetComponent<Player>();
     }
 
     private void Update()
     {
-        if (currentTool != CurrentTool.None && swapGunCoroutine == null)
+        if (player.GetCurrentTool != CURRENT_TOOL.None && swapGunCoroutine == null)
         {
             if (Input.GetButtonDown("Shoot"))
             {
-                guns[(int)currentTool].Shoot(cameraTransform.position, cameraTransform.forward);
+                player.GetGun.Shoot(cameraTransform.position, cameraTransform.forward);
             }
 
             if (Input.GetButtonDown("Reload"))
             {
-                guns[(int)currentTool].Reload();
+                player.GetGun.Reload();
             }
         }
 
-        if (Input.GetButtonDown("SwapGun"))
+        if (Input.GetButtonDown("DrawPistol"))
         {
-            if (swapGunCoroutine == null)
-            {
-                swapGunCoroutine = StartCoroutine(SwapGun());
-            }
+            TrySwapTool(CURRENT_TOOL.Pistol);
+        }
+
+        if (Input.GetButtonDown("DrawRifle"))
+        {
+            TrySwapTool(CURRENT_TOOL.Rifle);
+        }
+
+        if (Input.GetButtonDown("SwapHands"))
+        {
+            TrySwapTool(CURRENT_TOOL.None);
         }
     }
 
-    private IEnumerator SwapGun()
+    private void TrySwapTool(CURRENT_TOOL gun)
     {
-        CurrentTool nextGun = (int)currentTool + 1 >= guns.Count ? 0 : currentTool + 1;
+        if (swapGunCoroutine == null)
+        {
+            swapGunCoroutine = StartCoroutine(SwapGunCoroutine(gun));
+        }
+    }
 
-        yield return StartCoroutine(SeatheGunCoroutine());
+    private IEnumerator SwapGunCoroutine(CURRENT_TOOL gun)
+    {
+        if (player.GetCurrentTool != CURRENT_TOOL.None)
+        {
+            yield return StartCoroutine(SeatheGunCoroutine());
+        }
 
-        yield return StartCoroutine(DrawGunCoroutine(nextGun));
+        if (gun != CURRENT_TOOL.None)
+        {
+            yield return StartCoroutine(DrawGunCoroutine(gun));
+        }
+        else
+        {
+            player.SetCurrentTool = CURRENT_TOOL.None;
+        }
 
         swapGunCoroutine = null;
     }
 
-    private IEnumerator DrawGunCoroutine(CurrentTool gunName)
+    private IEnumerator DrawGunCoroutine(CURRENT_TOOL gunName)
     {
-        guns[(int)gunName].gameObject.SetActive(true);
+        player.GetGuns[(int)gunName].gameObject.SetActive(true);
+        player.SetCurrentTool = gunName;
 
         yield return new WaitForSeconds(0f);
 
         //Pull gun animation
-
-        currentTool = gunName;
-
-        drawGunCoroutine = null;
     }
 
     private IEnumerator SeatheGunCoroutine()
     {
-        CurrentTool lastCurrentTool = currentTool;
+        CURRENT_TOOL lastCurrentTool = player.GetCurrentTool;
 
         yield return new WaitForSeconds(0f);
 
         //Anim
 
-        guns[(int)currentTool].gameObject.SetActive(false);
-
-        currentTool = CurrentTool.None;
-    }
-
-    private void DrawGun(CurrentTool gunName)
-    {
-        if (drawGunCoroutine == null)
-        {
-            drawGunCoroutine = StartCoroutine(DrawGunCoroutine(gunName));
-
-            guns[(int)gunName].gameObject.SetActive(true);
-        }
-    }
-
-    private void AddGun(CurrentTool gunName, bool isEquipped = false)
-    {
-        Vector3 worldPosition = cameraTransform.TransformPoint(gunPresets[(int)gunName].localPosition);
-
-        Quaternion worldRotation = cameraTransform.rotation * gunPresets[(int)gunName].localRotation;
-
-        GameObject gun = Instantiate(gunPrefabs[(int)gunName], worldPosition, worldRotation, gunsContainer.transform);
-
-        Gun gunComponent = gun.GetComponent<Gun>();
-        guns.Add(gunComponent);
-        gunComponent.SetLayer(LayerMask.NameToLayer("PlayerGun"), gun.transform);
-
-        if (isEquipped)
-        {
-            DrawGun(gunName);
-        }
-
-        guns[(int)gunName].gameObject.SetActive(isEquipped);
+        player.GetGun.gameObject.SetActive(false);
     }
 }
