@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using Unity.VisualScripting;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -13,6 +12,8 @@ public class PlayerAction : MonoBehaviour
     }
 
     [SerializeField] private Transform cameraTransform;
+
+    [SerializeField] private GameObject gunsContainer;
 
     [SerializeField] private Transform[] gunPresets;
     [SerializeField] private GameObject[] gunPrefabs;
@@ -107,11 +108,11 @@ public class PlayerAction : MonoBehaviour
 
         Quaternion worldRotation = cameraTransform.rotation * gunPresets[(int)gunName].localRotation;
 
-        GameObject gun = Instantiate(gunPrefabs[(int)gunName], worldPosition, worldRotation);
+        GameObject gun = Instantiate(gunPrefabs[(int)gunName], worldPosition, worldRotation, gunsContainer.transform);
 
-        gun.transform.SetParent(cameraTransform);
-
-        guns.Add(gun.GetComponent<Gun>());
+        Gun gunComponent = gun.GetComponent<Gun>();
+        guns.Add(gunComponent);
+        gunComponent.SetLayer(LayerMask.NameToLayer("PlayerGun"), gun.transform);
 
         if (isEquipped)
         {

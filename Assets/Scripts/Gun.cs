@@ -44,6 +44,24 @@ public abstract class Gun : MonoBehaviour
         Debug.Log("current ammo = " + currentAmmo);
     }
 
+    public void SetLayer(int layer, Transform self)
+    {
+        float childAmount = self.childCount;
+
+        self.gameObject.layer = layer;
+
+        for (int i = 0; i < childAmount; i++)
+        {
+            Transform child = self.GetChild(i);
+            child.gameObject.layer = layer;
+
+            if (child.childCount > 0)
+            {
+                SetLayer(layer, child);
+            }
+        }
+    }
+
     public virtual void Shoot(Vector3 shootPos, Vector3 shootDir)
     {
         if (currentAmmo > 0f && shootCooldown <= 0f && reloadCoroutine == null)

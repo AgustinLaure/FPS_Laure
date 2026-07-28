@@ -106,6 +106,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Handgun_03_Magazine_Default
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9223480685152ba4287f7a025d3479e5, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -167,6 +171,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 97c2d2c1546da5d44b8deed9201dcff6, type: 3}
       propertyPath: m_Name
       value: SM_Handgun_03_Scope_Default
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 97c2d2c1546da5d44b8deed9201dcff6, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -238,9 +246,65 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5095937894866915933, guid: 2a41f6efcead7b7478c32faa0efccbc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3389703408220949797, guid: 2a41f6efcead7b7478c32faa0efccbc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3317973208597704330, guid: 2a41f6efcead7b7478c32faa0efccbc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2949473514823639372, guid: 2a41f6efcead7b7478c32faa0efccbc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2661040517507372210, guid: 2a41f6efcead7b7478c32faa0efccbc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1968580161548267700, guid: 2a41f6efcead7b7478c32faa0efccbc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1058351139471688840, guid: 2a41f6efcead7b7478c32faa0efccbc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -132756080351333592, guid: 2a41f6efcead7b7478c32faa0efccbc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2a41f6efcead7b7478c32faa0efccbc1, type: 3}
       propertyPath: m_Name
       value: SK_Handgun_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2a41f6efcead7b7478c32faa0efccbc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3027745510392581272, guid: 2a41f6efcead7b7478c32faa0efccbc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3734893505210361169, guid: 2a41f6efcead7b7478c32faa0efccbc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6651212935817621236, guid: 2a41f6efcead7b7478c32faa0efccbc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6853564451565157384, guid: 2a41f6efcead7b7478c32faa0efccbc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9086614172872675662, guid: 2a41f6efcead7b7478c32faa0efccbc1, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
