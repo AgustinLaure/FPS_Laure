@@ -38,8 +38,6 @@ public class PlayerHud : MonoBehaviour
     private void HandlePlayerHealthValueChanged(float currentHealth, float maxHealth)
     {
         healthBar.fillAmount = currentHealth / maxHealth;
-
-        Debug.Log(healthBar.fillAmount);
     }
 
     private void SetSpriteActive(CanvasGroup canvasGroup, bool isActive)

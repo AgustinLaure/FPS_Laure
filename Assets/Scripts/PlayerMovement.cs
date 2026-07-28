@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
-        axisInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
+        axisInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")).normalized;
 
         if (Mathf.Abs(axisInput.x) <= epsilon && Mathf.Abs(axisInput.z) <= epsilon && !isOnAir)
         {
@@ -64,9 +64,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.Rotate(transform.up, mouseInput.x * horizontalSensitivity * Time.deltaTime);
+        transform.Rotate(transform.up, mouseInput.x * horizontalSensitivity * Time.fixedDeltaTime);
 
-        rb.AddRelativeForce(new Vector3(axisInput.x * accel, 0f, axisInput.z * accel), moveForceMode);
+        rb.AddRelativeForce(axisInput * accel, moveForceMode);
 
         Vector3 clampedHorizontal = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 

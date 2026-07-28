@@ -381,8 +381,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1538cd63ee5c33449984e301bd1a0966, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  accel: 15
-  terminalVelocity: 15
+  accel: 100
+  terminalVelocity: 7
   horizontalSensitivity: 90
   verticalSensitivity: 90
   linearDamping: 10
