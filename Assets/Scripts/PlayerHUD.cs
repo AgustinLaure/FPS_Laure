@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHud : MonoBehaviour
 {
@@ -8,12 +9,14 @@ public class PlayerHud : MonoBehaviour
     [SerializeField] private CanvasGroup armedHUDCanvasGroup;
     [SerializeField] private TextMeshProUGUI currentAmmoTMP;
     [SerializeField] private TextMeshProUGUI maxAmmoTextTMP;
+    [SerializeField] private Image healthBar;
 
     private void Awake()
     {
         player.OnGunCurrentAmmoValueChanged += HandlePlayerAmmoValueChanged;
         player.OnArmedStateChanged += HandlePlayerOnArmedStateChanged;
         player.OnGunSwap += HandlePlayerGunSwap;
+        player.OnHealthValueChanged += HandlePlayerHealthValueChanged;
     }
 
     private void HandlePlayerGunSwap(Gun gun)
@@ -32,6 +35,13 @@ public class PlayerHud : MonoBehaviour
         SetSpriteActive(armedHUDCanvasGroup, isArmed);
     }
 
+    private void HandlePlayerHealthValueChanged(float currentHealth, float maxHealth)
+    {
+        healthBar.fillAmount = currentHealth / maxHealth;
+
+        Debug.Log(healthBar.fillAmount);
+    }
+
     private void SetSpriteActive(CanvasGroup canvasGroup, bool isActive)
     {
         canvasGroup.alpha = isActive ? 1f : 0f;
@@ -41,6 +51,7 @@ public class PlayerHud : MonoBehaviour
     {
         player.OnGunCurrentAmmoValueChanged -= HandlePlayerAmmoValueChanged;
         player.OnArmedStateChanged -= HandlePlayerOnArmedStateChanged;
-        player.OnGunSwap += HandlePlayerGunSwap;
+        player.OnGunSwap -= HandlePlayerGunSwap;
+        player.OnHealthValueChanged -= HandlePlayerHealthValueChanged;
     }
 }

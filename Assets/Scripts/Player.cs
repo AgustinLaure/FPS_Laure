@@ -11,19 +11,26 @@ public enum CURRENT_TOOL
 
 public class Player : MonoBehaviour
 {
+    private HealthPoints healthPoints;
+
     public event Action<int> OnGunCurrentAmmoValueChanged;
     public event Action<Gun> OnGunSwap;
     public event Action<bool> OnArmedStateChanged;
+    public event Action<float, float> OnHealthValueChanged;
 
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Transform[] gunPresets;
     [SerializeField] private GameObject[] gunPrefabs;
     [SerializeField] private GameObject gunsContainer;
+    [SerializeField] private float baseMaxHealth;
+    [SerializeField] private float baseHealth;
 
     private CURRENT_TOOL prevTool = CURRENT_TOOL.None;
     private CURRENT_TOOL currentTool = CURRENT_TOOL.None;
 
     private List<Gun> guns = new List<Gun>();
+
+    public HealthPoints GetHealthPoints { get { return healthPoints; } }
 
 
     public CURRENT_TOOL SetCurrentTool
@@ -57,8 +64,17 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        healthPoints = new HealthPoints(baseHealth, baseMaxHealth);
+        healthPoints.OnTakenDamage += HandleHealthPointsTakenDamage;
+        healthPoints.OnDied += HandleHealthPointsDied;
+
         AddGun(CURRENT_TOOL.Rifle);
         AddGun(CURRENT_TOOL.Pistol);
+    }
+
+    private void Update()
+    {
+        healthPoints.TakeDamage(Time.deltaTime);
     }
 
     private void AddGun(CURRENT_TOOL gunName)
@@ -84,11 +100,24 @@ public class Player : MonoBehaviour
         OnGunCurrentAmmoValueChanged?.Invoke(value);
     }
 
+    private void HandleHealthPointsTakenDamage()
+    {
+        OnHealthValueChanged?.Invoke(healthPoints.GetCurrentHealth, healthPoints.GetMaxHealth);
+    }
+
+    private void HandleHealthPointsDied()
+    {
+
+    }
+
     private void OnDestroy()
     {
         foreach (Gun gun in guns)
         {
             gun.OnCurrentAmmoValueChanged -= HandleGunCurrentAmmoValueChanged;
         }
+
+        healthPoints.OnTakenDamage += HandleHealthPointsTakenDamage;
+        healthPoints.OnDied += HandleHealthPointsDied;
     }
 }
