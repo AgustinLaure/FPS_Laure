@@ -50,9 +50,22 @@ public class PlayerAction : MonoBehaviour
 
     private void TrySwapTool(CURRENT_TOOL gun)
     {
+        bool canSwap = true;
+
         if (swapGunCoroutine == null)
         {
-            swapGunCoroutine = StartCoroutine(SwapGunCoroutine(gun));
+            if (player.GetCurrentTool != CURRENT_TOOL.None)
+            {
+                if (player.GetGun.GetIsReloading)
+                {
+                    canSwap = false;
+                }
+            }
+
+            if (canSwap)
+            {
+                swapGunCoroutine = StartCoroutine(SwapGunCoroutine(gun));
+            }
         }
     }
 

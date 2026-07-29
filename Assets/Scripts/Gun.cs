@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 
 public abstract class Gun : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public abstract class Gun : MonoBehaviour
 
     public float GetMaxAmmo { get { return maxAmmo; } }
 
+    public bool GetIsReloading { get { return reloadCoroutine != null; } }
+
 
     private float shootCooldown = 0f;
 
@@ -43,7 +46,7 @@ public abstract class Gun : MonoBehaviour
     private void Start()
     {
         originalLocalPos = transform.localPosition;
-        ownerMask = ~ownerMask;
+        ownerMask = ~(ownerMask | LayerMask.GetMask("NonHitteable"));
     }
 
     private void Update()
