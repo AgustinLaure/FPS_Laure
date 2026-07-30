@@ -68,8 +68,6 @@ public class PlayerMovement : MonoBehaviour
 
         FixStep();
 
-        Debug.Log(isOnAir);
-
         if (Input.GetButton("Jump") && !isOnAir)
         {
             isJump = true;
