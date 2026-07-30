@@ -23,4 +23,11 @@ public static class UnityUtils
             return newChild;
         }
     }
+
+    public static bool CurrentAnimationEnded(int currentAnimHash, Animator animator)
+    {
+        AnimatorStateInfo animatorInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        return animatorInfo.normalizedTime >= 1f && animatorInfo.shortNameHash == currentAnimHash;
+    }
 }

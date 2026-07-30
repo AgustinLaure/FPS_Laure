@@ -1,7 +1,5 @@
-using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections.Generic;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class Patroller : MonoBehaviour
@@ -23,6 +21,8 @@ public class Patroller : MonoBehaviour
     private int currentWaypointIndex;
 
     public bool GetHasReachedDestination { get { return HasReachedDestination(); } }
+
+    public bool GetIsMoving { get { return navMeshAgent.desiredVelocity.sqrMagnitude > epsilon * epsilon && !navMeshAgent.isStopped && navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance; } }
 
 
     private void Awake()

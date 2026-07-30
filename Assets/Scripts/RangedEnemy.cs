@@ -1,11 +1,17 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class RangedEnemy : Enemy
 {
+    public event Action OnShot;
+
     [SerializeField] private float damage;
     [SerializeField] private float shootColdown;
     [SerializeField] private GameObject target;
+    [SerializeField] private ParticleSystem shootParticle;
+    [SerializeField] private float rotationSpeed;
+    private Patroller patroller;
 
     //0-100 values
     [SerializeField] private float hitRatio;
@@ -15,6 +21,8 @@ public class RangedEnemy : Enemy
     protected override void Awake()
     {
         base.Awake();
+
+        patroller = GetComponent<Patroller>();
     }
 
     protected override void Start()
@@ -28,8 +36,16 @@ public class RangedEnemy : Enemy
     {
         base.Update();
 
-        if (perception.GetIsTargetVisible)
+        if (perception.GetIsTargetVisible && !patroller.GetIsMoving)
         {
+            Vector3 direction = player.transform.position - transform.position;
+            
+            direction.y = 0f;
+            
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
             if (shootTargetCoroutine == null)
             {
                 shootTargetCoroutine = StartCoroutine(ShootTarget());
@@ -39,7 +55,10 @@ public class RangedEnemy : Enemy
 
     private IEnumerator ShootTarget()
     {
-        bool landedHit = Random.Range(1, 101) <= hitRatio;
+        OnShot?.Invoke();
+        shootParticle.Play();
+
+        bool landedHit = UnityEngine.Random.Range(1, 101) <= hitRatio;
 
         if (landedHit)
         {
