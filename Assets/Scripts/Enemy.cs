@@ -19,14 +19,15 @@ public class Enemy : MonoBehaviour
     }
 
     [SerializeField] protected Player player;
-    private const string playerTag = "Player";
+    protected const string playerTag = "Player";
+    protected const string enemyTag = "Enemy";
+
     private Patroller patroller;
     private Chaser chaser;
     private Perception perception;
-
-    [SerializeField] private float maxHealth;
-    [SerializeField] private float currentHealth;
     private HealthPoints healthPoints;
+
+    [SerializeField] protected LayerMask targetLayerMask;
 
     private FSM fsm;
     private Dictionary<Type, IState> states;
@@ -38,13 +39,11 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Awake()
     {
-
+        healthPoints = GetComponent<HealthPoints>();
     }
 
     protected virtual void Start()
     {
-        healthPoints = new HealthPoints(currentHealth, maxHealth);
-
         perception = gameObject.GetComponent<Perception>();
         patroller = gameObject.GetComponent<Patroller>();
         chaser = gameObject.GetComponent<Chaser>();
@@ -73,7 +72,7 @@ public class Enemy : MonoBehaviour
         switch (enemyType)
         {
             case ENEMY_TYPE.Patroller:
-                fsm.SetInitialState(typeof(PatrolState)); 
+                fsm.SetInitialState(typeof(PatrolState));
                 break;
             case ENEMY_TYPE.Camper:
                 fsm.SetInitialState(typeof(IdleState));

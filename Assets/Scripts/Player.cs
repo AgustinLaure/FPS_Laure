@@ -22,8 +22,6 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform[] gunPresets;
     [SerializeField] private GameObject[] gunPrefabs;
     [SerializeField] private GameObject gunsContainer;
-    [SerializeField] private float baseMaxHealth;
-    [SerializeField] private float baseHealth;
 
     private CURRENT_TOOL prevTool = CURRENT_TOOL.None;
     private CURRENT_TOOL currentTool = CURRENT_TOOL.None;
@@ -64,7 +62,8 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        healthPoints = new HealthPoints(baseHealth, baseMaxHealth);
+        healthPoints = GetComponent<HealthPoints>();
+
         healthPoints.OnTakenDamage += HandleHealthPointsTakenDamage;
         healthPoints.OnDied += HandleHealthPointsDied;
 
@@ -74,7 +73,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        healthPoints.TakeDamage(Time.deltaTime);
+
     }
 
     private void AddGun(CURRENT_TOOL gunName)
@@ -103,6 +102,8 @@ public class Player : MonoBehaviour
     private void HandleHealthPointsTakenDamage()
     {
         OnHealthValueChanged?.Invoke(healthPoints.GetCurrentHealth, healthPoints.GetMaxHealth);
+
+        //hurt
     }
 
     private void HandleHealthPointsDied()

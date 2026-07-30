@@ -1,12 +1,13 @@
 using System;
+using UnityEngine;
 
-public class HealthPoints
+public class HealthPoints : MonoBehaviour
 {
     public event Action OnDied;
     public event Action OnTakenDamage;
 
-    private float currentHealth;
-    private float maxHealth;
+    [SerializeField] private float currentHealth;
+    [SerializeField] private float maxHealth;
 
     public float GetCurrentHealth { get { return currentHealth; } }
     public float GetMaxHealth { get { return maxHealth; } }
