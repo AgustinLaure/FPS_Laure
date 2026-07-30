@@ -1,30 +1,21 @@
 using UnityEngine;
 
-public class Kamikaze : MonoBehaviour
+public class Kamikaze : Enemy
 {
-    [SerializeField] private Player player;
-    private Perception perception;
-
     public Player SetPlayer { set { player = value; } }
 
-    private bool isSeeingPlayer = false;
-
-    private void Awake()
+    protected override void Awake()
     {
-        perception = GetComponent<Perception>();
+        base.Awake();
     }
 
-    private void Update()
+    protected override void Start()
     {
-        isSeeingPlayer = perception.GetIsTargetVisible;
+        base.Start();
+    }
 
-        if (isSeeingPlayer)
-        {
-            Debug.Log("Te veo");
-        }
-        else
-        {
-            Debug.Log("No te veo");
-        }
+    protected override void Update()
+    {
+        base.Update();
     }
 }

@@ -18,8 +18,12 @@ public class Patroller : MonoBehaviour
 
     [SerializeField] private Transform[] wayPoints;
     [SerializeField] private WAYPOINT_NAVIGATION waypointNavigationType;
+    private bool isPatrolling = false;
 
     private int currentWaypointIndex;
+
+    public bool GetHasReachedDestination { get { return HasReachedDestination(); } }
+
 
     private void Awake()
     {
@@ -28,9 +32,12 @@ public class Patroller : MonoBehaviour
 
     private void Update()
     {
-        if (HasReachedDestination())
+        if (isPatrolling)
         {
-            SetNewDestination();
+            if (HasReachedDestination())
+            {
+                SetNewDestination();
+            }
         }
     }
 
@@ -77,6 +84,17 @@ public class Patroller : MonoBehaviour
         }
 
         navMeshAgent.SetDestination(wayPoints[currentWaypointIndex].position);
+    }
+
+    public void StartPatrolling()
+    {
+        isPatrolling = true;
+        SetNewDestination();
+    }
+
+    public void StopPatrolling()
+    {
+        isPatrolling = false;
     }
 
     private int GetRandomInt(int min, int max, int exclude)
