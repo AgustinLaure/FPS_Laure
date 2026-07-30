@@ -56,8 +56,6 @@ public class Chaser : MonoBehaviour
             {
                 navMeshAgent.isStopped = true;
             }
-
-            Debug.Log(navMeshAgent.isStopped);
         }
     }
 
@@ -85,16 +83,29 @@ public class Chaser : MonoBehaviour
 
     private void Reset()
     {
-        GameObject newChaserContainer = UnityUtils.SetChild(transform, chaserName, Vector3.zero, Quaternion.identity, Vector3.one);
-        GameObject newChaseMaxDistanceArea = UnityUtils.SetChild(newChaserContainer.transform, chaseMaxDistanceName, Vector3.zero, Quaternion.identity, Vector3.one);
-        newChaseMaxDistanceArea.AddComponent<SphereCollider>();
+        if (transform.Find(chaserName) == null)
+        {
+            GameObject newChaserContainer = UnityUtils.SetChild(transform, chaserName, Vector3.zero, Quaternion.identity, Vector3.one);
+        }
 
-        SphereCollider newChaseMaxDistanceBoxCollider = newChaseMaxDistanceArea.GetComponent<SphereCollider>();
+        GameObject chaserContainer = transform.Find(chaserName).gameObject;
 
-        newChaseMaxDistanceBoxCollider.isTrigger = true;
+        if (chaserContainer.transform.Find(chaseMaxDistanceName) == null)
+        {
+            GameObject newChaseMaxDistanceArea = UnityUtils.SetChild(chaserContainer.transform, chaseMaxDistanceName, Vector3.zero, Quaternion.identity, Vector3.one);
+            newChaseMaxDistanceArea.AddComponent<SphereCollider>();
+            SphereCollider newChaseMaxDistanceBoxCollider = newChaseMaxDistanceArea.GetComponent<SphereCollider>();
+            newChaseMaxDistanceBoxCollider.isTrigger = true;
+            chaseMaxDistanceArea = newChaseMaxDistanceBoxCollider;
+        }
+        else
+        {
+            chaseMaxDistanceArea = chaserContainer.transform.Find(chaseMaxDistanceName).GetComponent<SphereCollider>();
+        }
 
-        chaseMaxDistanceArea = newChaseMaxDistanceBoxCollider;
-
-        gameObject.AddComponent<NavMeshAgent>();
+        if (gameObject.GetComponent<NavMeshAgent>() == null)
+        {
+            gameObject.AddComponent<NavMeshAgent>();
+        }
     }
 }

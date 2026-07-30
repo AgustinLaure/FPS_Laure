@@ -15,6 +15,8 @@ public abstract class Gun : MonoBehaviour
     [SerializeField] private float damage;
     [SerializeField] private float shootDistance = 100f;
 
+    private string targetTag;
+
     [SerializeField] private float recoilDistance;
 
     [SerializeField] private float recoilKickTime;
@@ -22,7 +24,15 @@ public abstract class Gun : MonoBehaviour
 
     private LayerMask ownerMask;
 
-    public LayerMask SetOwnerMask { set { ownerMask = value; } }
+    public LayerMask SetOwnerMask 
+    {
+        set 
+        {
+            ownerMask = ~(value | LayerMask.GetMask("NonHitteable"));
+        }
+    }
+
+    public string SetTargetTag { set { targetTag = value; } }
 
     public float GetCurrentAmmo { get { return currentAmmo; } }
 
@@ -46,14 +56,11 @@ public abstract class Gun : MonoBehaviour
     private void Start()
     {
         originalLocalPos = transform.localPosition;
-        ownerMask = ~(ownerMask | LayerMask.GetMask("NonHitteable"));
     }
 
     private void Update()
     {
         shootCooldown -= Time.deltaTime;
-
-        Debug.Log("current ammo = " + currentAmmo);
     }
 
     public void SetLayer(int layer, Transform self)
@@ -78,8 +85,10 @@ public abstract class Gun : MonoBehaviour
     {
         if (currentAmmo > 0f && shootCooldown <= 0f && reloadCoroutine == null)
         {
-            if (Physics.Raycast(shootPos, shootDir, out RaycastHit hit, shootDistance, ownerMask))
+            if (Physics.Raycast(shootPos, shootDir, out RaycastHit hit, shootDistance, ownerMask, QueryTriggerInteraction.Ignore))
             {
+                Debug.Log(hit.transform.position);
+
                 if (hit.transform.CompareTag("Environment"))
                 {
                     Quaternion decalOrientation = Quaternion.LookRotation(-hit.normal);
@@ -87,6 +96,15 @@ public abstract class Gun : MonoBehaviour
                     GameObject decal = Instantiate(bulletImpactDecalPrefab, hit.point, decalOrientation);
 
                     decal.transform.SetParent(hit.transform);
+                }
+                if (hit.transform.CompareTag(targetTag))
+                {
+                    HealthPoints targetHealthPoints = hit.transform.gameObject.GetComponent<HealthPoints>();
+
+                    if (targetHealthPoints != null)
+                    {
+                        targetHealthPoints.TakeDamage(damage);
+                    }
                 }
             }
 

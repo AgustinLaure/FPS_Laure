@@ -41,8 +41,6 @@ public class RangedEnemy : Enemy
     {
         bool landedHit = Random.Range(1, 101) <= hitRatio;
 
-        Debug.Log("dispare");
-
         if (landedHit)
         {
             HealthPoints targetHealthPoints = target.GetComponent<HealthPoints>();
@@ -50,8 +48,6 @@ public class RangedEnemy : Enemy
             if (targetHealthPoints != null)
             {
                 targetHealthPoints.TakeDamage(damage);
-
-                Debug.Log("entro la balubi");
             }
         }
 

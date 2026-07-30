@@ -23,8 +23,12 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject[] gunPrefabs;
     [SerializeField] private GameObject gunsContainer;
 
+    [SerializeField] private LayerMask playerLayerMask;
+
     private CURRENT_TOOL prevTool = CURRENT_TOOL.None;
     private CURRENT_TOOL currentTool = CURRENT_TOOL.None;
+
+    private const string enemyTag = "Enemy";
 
     private List<Gun> guns = new List<Gun>();
 
@@ -89,7 +93,9 @@ public class Player : MonoBehaviour
         gunComponent.OnCurrentAmmoValueChanged += HandleGunCurrentAmmoValueChanged;
 
         guns.Add(gunComponent);
+        gunComponent.SetOwnerMask = playerLayerMask;
         gunComponent.SetLayer(LayerMask.NameToLayer("PlayerGun"), gun.transform);
+        gunComponent.SetTargetTag = enemyTag;
 
         guns[(int)gunName].gameObject.SetActive(false);
     }

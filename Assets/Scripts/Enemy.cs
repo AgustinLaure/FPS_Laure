@@ -40,6 +40,9 @@ public class Enemy : MonoBehaviour
     protected virtual void Awake()
     {
         healthPoints = GetComponent<HealthPoints>();
+
+        healthPoints.OnDied += HandleDie;
+        healthPoints.OnTakenDamage += HandleTakeDamage;
     }
 
     protected virtual void Start()
@@ -89,7 +92,16 @@ public class Enemy : MonoBehaviour
         fsm.Update();
     }
 
-    private void OnDestroy()
+    private void HandleTakeDamage()
+    {
+        Debug.Log("ouch");
+    }
+    private void HandleDie()
+    {
+        Destroy(gameObject);
+    }
+
+    protected virtual void OnDestroy()
     {
         IState auxState;
 
@@ -101,6 +113,9 @@ public class Enemy : MonoBehaviour
 
         states.TryGetValue(typeof(ChaseState), out auxState);
         healthPoints.OnDied -= ((ChaseState)auxState).OnDie;
+
+        healthPoints.OnDied -= HandleDie;
+        healthPoints.OnTakenDamage -= HandleTakeDamage;
     }
 
     private class IdleState : IState

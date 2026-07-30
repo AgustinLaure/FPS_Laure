@@ -1,7 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
-
 public class Perception : MonoBehaviour
 {
     [SerializeField] private BoxCollider perceptionArea;
@@ -114,14 +112,33 @@ public class Perception : MonoBehaviour
 
     private void Reset()
     {
-        GameObject newPerceptionContainer = UnityUtils.SetChild(transform, perceptionObjectName, Vector3.zero, Quaternion.identity, Vector3.one);
+        if (transform.Find(perceptionObjectName) == null)
+        {
+            GameObject newPerceptionContainer = UnityUtils.SetChild(transform, perceptionObjectName, Vector3.zero, Quaternion.identity, Vector3.one);
+        }
 
-        GameObject newPerceptionPoint = UnityUtils.SetChild(newPerceptionContainer.transform, perceptionPointObjectName, Vector3.zero, Quaternion.identity, Vector3.one);
-        perceptionPoint = newPerceptionPoint;
+        GameObject container = transform.Find(perceptionObjectName).gameObject;
 
-        GameObject newPerceptionArea = UnityUtils.SetChild(newPerceptionContainer.transform, perceptionAreaObjectName, Vector3.zero, Quaternion.identity, Vector3.one);
-        newPerceptionArea.AddComponent<BoxCollider>();
-        perceptionArea = newPerceptionArea.GetComponent<BoxCollider>();
-        perceptionArea.isTrigger = true;
+        if (container.transform.Find(perceptionPointObjectName) == null)
+        {
+            GameObject newPerceptionPoint = UnityUtils.SetChild(container.transform, perceptionPointObjectName, Vector3.zero, Quaternion.identity, Vector3.one);
+            perceptionPoint = newPerceptionPoint;
+        }
+        else
+        {
+            perceptionPoint = container.transform.Find(perceptionPointObjectName).gameObject;
+        }
+
+        if (container.transform.Find(perceptionAreaObjectName) == null)
+        {
+            GameObject newPerceptionArea = UnityUtils.SetChild(container.transform, perceptionAreaObjectName, Vector3.zero, Quaternion.identity, Vector3.one);
+            newPerceptionArea.AddComponent<BoxCollider>();
+            perceptionArea = newPerceptionArea.GetComponent<BoxCollider>();
+            perceptionArea.isTrigger = true;
+        }
+        else
+        {
+            perceptionArea = container.transform.Find(perceptionAreaObjectName).GetComponent<BoxCollider>();
+        }
     }
 }
