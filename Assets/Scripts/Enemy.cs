@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
 
     private Patroller patroller;
     private Chaser chaser;
-    private Perception perception;
+    protected Perception perception;
     private HealthPoints healthPoints;
 
     [SerializeField] protected LayerMask targetLayerMask;
