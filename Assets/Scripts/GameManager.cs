@@ -1,18 +1,25 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Player player;
 
     [SerializeField] private CanvasGroup pauseScreenCanvasGroup;
     [SerializeField] private Button pauseScreenResumeButton;
+    [SerializeField] private Button pauseScreenSettingsButton;
     [SerializeField] private Button pauseScreenMainMenuButton;
 
     [SerializeField] private CanvasGroup endScreenCanvasGroup;
     [SerializeField] private Button endScreenContinueButton;
     [SerializeField] private Button endScreenMainMenuButton;
+
+    [SerializeField] private CanvasGroup settingsScreenCanvasGroup;
+    [SerializeField] private Button settingsBackButton;
+    [SerializeField] private Slider settingsMasterSlider;
+    [SerializeField] private Slider settingsMusicSlider;
+    [SerializeField] private Slider settingsSfxSlider;
 
     [SerializeField] private Image endScreenTitle;
     [SerializeField] private Sprite loseTitleSprite;
@@ -51,9 +58,15 @@ public class GameManager : MonoBehaviour
         player.GetHealthPoints.OnDied += HandlePlayerDeath;
 
         pauseScreenResumeButton.onClick.AddListener(HandleResumeButtonClick);
+        pauseScreenSettingsButton.onClick.AddListener(HandleSettingsButtonClick);
         pauseScreenMainMenuButton.onClick.AddListener(HandleMainMenuButtonClick);
         endScreenContinueButton.onClick.AddListener(HandleContinueButtonClick);
         endScreenMainMenuButton.onClick.AddListener(HandleMainMenuButtonClick);
+
+        settingsBackButton.onClick.AddListener(HandleSettingsBackButtonClick);
+        settingsMasterSlider.onValueChanged.AddListener(HandleMasterVolumeChange);
+        settingsMusicSlider.onValueChanged.AddListener(HandleMusicVolumeChange);
+        settingsSfxSlider.onValueChanged.AddListener(HandleSfxVolumeChange);
     }
 
     private void OnDestroy()
@@ -62,9 +75,15 @@ public class GameManager : MonoBehaviour
         player.GetHealthPoints.OnDied -= HandlePlayerDeath;
 
         pauseScreenResumeButton.onClick.RemoveListener(HandleResumeButtonClick);
+        pauseScreenSettingsButton.onClick.RemoveListener(HandleSettingsButtonClick);
         pauseScreenMainMenuButton.onClick.RemoveListener(HandleMainMenuButtonClick);
         endScreenContinueButton.onClick.RemoveListener(HandleContinueButtonClick);
         endScreenMainMenuButton.onClick.RemoveListener(HandleMainMenuButtonClick);
+
+        settingsBackButton.onClick.RemoveListener(HandleSettingsBackButtonClick);
+        settingsMasterSlider.onValueChanged.RemoveListener(HandleMasterVolumeChange);
+        settingsMusicSlider.onValueChanged.RemoveListener(HandleMusicVolumeChange);
+        settingsSfxSlider.onValueChanged.RemoveListener(HandleSfxVolumeChange);
     }
 
     private void SetPause(bool state)
@@ -116,6 +135,36 @@ public class GameManager : MonoBehaviour
     {
         ServiceLocator.Instance.GetService<AudioManager>().GetButtonPressedSound.Play();
         SetPause(false);
+    }
+
+    private void HandleSettingsButtonClick()
+    {
+        ServiceLocator.Instance.GetService<AudioManager>().GetButtonPressedSound.Play();
+        UiUtils.SetCanvasActive(pauseScreenCanvasGroup, false);
+        UiUtils.SetCanvasActive(settingsScreenCanvasGroup, true);
+    }
+
+    private void HandleMasterVolumeChange(float value)
+    {
+        ServiceLocator.Instance.GetService<AudioManager>().MasterVolume = value;
+    }
+
+    private void HandleMusicVolumeChange(float value)
+    {
+        ServiceLocator.Instance.GetService<AudioManager>().MusicVolume = value;
+    }
+
+    private void HandleSfxVolumeChange(float value)
+    {
+        ServiceLocator.Instance.GetService<AudioManager>().SfxVolume = value;
+    }
+
+    private void HandleSettingsBackButtonClick()
+    {
+        ServiceLocator.Instance.GetService<AudioManager>().GetButtonPressedSound.Play();
+
+        UiUtils.SetCanvasActive(settingsScreenCanvasGroup, false);
+        UiUtils.SetCanvasActive(pauseScreenCanvasGroup, true);
     }
 
     private void HandleMainMenuButtonClick()
