@@ -10,9 +10,17 @@ public class PlayerHud : MonoBehaviour
     [SerializeField] private TextMeshProUGUI currentAmmoTMP;
     [SerializeField] private TextMeshProUGUI maxAmmoTMP;
     [SerializeField] private TextMeshProUGUI remainingEnemiesTMP;
+
+    [SerializeField] private CanvasGroup handIconCanvasGroup;
+    [SerializeField] private CanvasGroup rifleIconCanvasGroup;
+    [SerializeField] private CanvasGroup pistolIconCanvasGroup;
+
     [SerializeField] private Image healthBar;
 
     private const string remainingEnemiesText = "Remaining enemies: ";
+    [SerializeField] private PlayerAction playerAction;
+
+    [SerializeField] private float inactiveToolAlpha;
 
     private void Awake()
     {
@@ -20,11 +28,46 @@ public class PlayerHud : MonoBehaviour
         player.OnArmedStateChanged += HandlePlayerOnArmedStateChanged;
         player.OnGunSwap += HandlePlayerGunSwap;
         player.OnHealthValueChanged += HandlePlayerHealthValueChanged;
+        playerAction.OnSwapTool += HandleSwapTool;
+    }
+
+    private void Start()
+    {
+        HandleSwapTool(player.GetCurrentTool);
     }
 
     public void UpdateEnemiesLeft(int enemiesLeft)
     {
         remainingEnemiesTMP.text = remainingEnemiesText + enemiesLeft.ToString();
+    }
+
+    private void HandleSwapTool(CURRENT_TOOL currentTool)
+    {
+        handIconCanvasGroup.alpha = inactiveToolAlpha;
+        rifleIconCanvasGroup.alpha = inactiveToolAlpha;
+        pistolIconCanvasGroup.alpha = inactiveToolAlpha;
+
+        CanvasGroup toTurnOn = handIconCanvasGroup;
+
+        switch (currentTool)
+        {
+            case CURRENT_TOOL.None:
+                toTurnOn = handIconCanvasGroup;
+                break;
+
+            case CURRENT_TOOL.Rifle:
+                toTurnOn = rifleIconCanvasGroup;
+                break;
+
+            case CURRENT_TOOL.Pistol:
+                toTurnOn = pistolIconCanvasGroup;
+                break;
+
+            default:
+                break;
+        }
+
+        toTurnOn.alpha = 1f;
     }
 
     private void HandlePlayerGunSwap(Gun gun)
@@ -59,5 +102,6 @@ public class PlayerHud : MonoBehaviour
         player.OnArmedStateChanged -= HandlePlayerOnArmedStateChanged;
         player.OnGunSwap -= HandlePlayerGunSwap;
         player.OnHealthValueChanged -= HandlePlayerHealthValueChanged;
+        playerAction.OnSwapTool += HandleSwapTool;
     }
 }

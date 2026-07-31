@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerAction : MonoBehaviour
 {
     public event Action OnPause;
+    public event Action<CURRENT_TOOL> OnSwapTool;
 
     [SerializeField] private Transform cameraTransform;
     private Player player;
@@ -79,6 +80,11 @@ public class PlayerAction : MonoBehaviour
 
     private IEnumerator SwapGunCoroutine(CURRENT_TOOL gun)
     {
+        if (player.GetCurrentTool != gun)
+        {
+            OnSwapTool.Invoke(gun);
+        }
+
         if (player.GetCurrentTool != CURRENT_TOOL.None)
         {
             yield return StartCoroutine(SeatheGunCoroutine());
