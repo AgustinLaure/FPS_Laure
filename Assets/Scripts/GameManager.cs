@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using System.Collections;
 
 public class GameManager : MonoBehaviour
@@ -22,9 +21,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private CanvasGroup settingsScreenCanvasGroup;
     [SerializeField] private Button settingsBackButton;
-    [SerializeField] private Slider settingsMasterSlider;
-    [SerializeField] private Slider settingsMusicSlider;
-    [SerializeField] private Slider settingsSfxSlider;
+    [SerializeField] private Slider settingsMasterVolumeSlider;
+    [SerializeField] private Slider settingsMusicVolumeSlider;
+    [SerializeField] private Slider settingsSfxVolumeSlider;
 
     [SerializeField] private Image endScreenTitle;
     [SerializeField] private Sprite loseTitleSprite;
@@ -72,10 +71,25 @@ public class GameManager : MonoBehaviour
 
         playerHud.UpdateEnemiesLeft(enemies.Count);
 
+        ServiceLocator.Instance.GetService<AudioManager>().GetGameplayMusic.loop = true;
+
         if (!ServiceLocator.Instance.GetService<AudioManager>().GetGameplayMusic.isPlaying)
         {
             ServiceLocator.Instance.GetService<AudioManager>().GetGameplayMusic.Play();
         }
+
+        if (ServiceLocator.Instance == null)
+        {
+            Debug.Log("S");
+        }
+        if (ServiceLocator.Instance.GetService<AudioManager>() == null)
+        {
+            Debug.Log("l");
+        }
+
+        settingsMasterVolumeSlider.value = ServiceLocator.Instance.GetService<AudioManager>().MasterVolume;
+        settingsMusicVolumeSlider.value = ServiceLocator.Instance.GetService<AudioManager>().MusicVolume;
+        settingsSfxVolumeSlider.value = ServiceLocator.Instance.GetService<AudioManager>().SfxVolume;
 
         playerAction = player.GetComponent<PlayerAction>();
         playerMovement = player.GetComponent<PlayerMovement>();
@@ -90,9 +104,9 @@ public class GameManager : MonoBehaviour
         endScreenMainMenuButton.onClick.AddListener(HandleMainMenuButtonClick);
 
         settingsBackButton.onClick.AddListener(HandleSettingsBackButtonClick);
-        settingsMasterSlider.onValueChanged.AddListener(HandleMasterVolumeChange);
-        settingsMusicSlider.onValueChanged.AddListener(HandleMusicVolumeChange);
-        settingsSfxSlider.onValueChanged.AddListener(HandleSfxVolumeChange);
+        settingsMasterVolumeSlider.onValueChanged.AddListener(HandleMasterVolumeChange);
+        settingsMusicVolumeSlider.onValueChanged.AddListener(HandleMusicVolumeChange);
+        settingsSfxVolumeSlider.onValueChanged.AddListener(HandleSfxVolumeChange);
     }
 
     private void Update()
@@ -120,9 +134,9 @@ public class GameManager : MonoBehaviour
         endScreenMainMenuButton.onClick.RemoveListener(HandleMainMenuButtonClick);
 
         settingsBackButton.onClick.RemoveListener(HandleSettingsBackButtonClick);
-        settingsMasterSlider.onValueChanged.RemoveListener(HandleMasterVolumeChange);
-        settingsMusicSlider.onValueChanged.RemoveListener(HandleMusicVolumeChange);
-        settingsSfxSlider.onValueChanged.RemoveListener(HandleSfxVolumeChange);
+        settingsMasterVolumeSlider.onValueChanged.RemoveListener(HandleMasterVolumeChange);
+        settingsMusicVolumeSlider.onValueChanged.RemoveListener(HandleMusicVolumeChange);
+        settingsSfxVolumeSlider.onValueChanged.RemoveListener(HandleSfxVolumeChange);
 
         foreach (Enemy enemy in enemies)
         {

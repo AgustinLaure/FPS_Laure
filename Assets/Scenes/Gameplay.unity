@@ -144,11 +144,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9084588300078817646, guid: 43654491e388911448c4b368ee1ee5e9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -75.959045
+      value: -79.76
       objectReference: {fileID: 0}
     - target: {fileID: 9084588300078817646, guid: 43654491e388911448c4b368ee1ee5e9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.44792
+      value: 2.27
       objectReference: {fileID: 0}
     - target: {fileID: 9084588300078817646, guid: 43654491e388911448c4b368ee1ee5e9, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5458,9 +5458,9 @@ MonoBehaviour:
   endScreenMainMenuButton: {fileID: 5440744601207644485}
   settingsScreenCanvasGroup: {fileID: 869649437}
   settingsBackButton: {fileID: 375705370}
-  settingsMasterSlider: {fileID: 2030928526}
-  settingsMusicSlider: {fileID: 509180156}
-  settingsSfxSlider: {fileID: 1122419310}
+  settingsMasterVolumeSlider: {fileID: 2030928526}
+  settingsMusicVolumeSlider: {fileID: 509180156}
+  settingsSfxVolumeSlider: {fileID: 1122419310}
   endScreenTitle: {fileID: 5440744601207644487}
   loseTitleSprite: {fileID: 21300000, guid: 9baa5f998efe43843886d15f36653e9e, type: 3}
   winTitleSprite: {fileID: 21300000, guid: 77e15f6626ebdfa4195ad886980393d4, type: 3}
@@ -5490,7 +5490,7 @@ AudioSource:
   m_GameObject: {fileID: 1597028695}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 8101950142321611058, guid: 1459a3e605177f54b9d582cbdbbb0c6b, type: 2}
+  OutputAudioMixerGroup: {fileID: 7863960959068794223, guid: 1459a3e605177f54b9d582cbdbbb0c6b, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: a230dda40bf9d5246a128899a1776523, type: 3}
   m_PlayOnAwake: 1
