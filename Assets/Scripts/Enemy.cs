@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,6 +25,10 @@ public class Enemy : MonoBehaviour
     protected const string playerTag = "Player";
     protected const string enemyTag = "Enemy";
 
+    [SerializeField] private Renderer[] renderers;
+    [SerializeField] private Color hurtColor;
+    [SerializeField] private float hitEffectDuration;
+
     protected Patroller patroller;
     private Chaser chaser;
     protected Perception perception;
@@ -37,12 +42,21 @@ public class Enemy : MonoBehaviour
     [SerializeField] private ACTION_STATE currentActionState = ACTION_STATE.Patrolling;
     [SerializeField] private ENEMY_TYPE enemyType;
     [SerializeField] protected float targetTrackSpeed;
+    private Coroutine takeDamageCoroutine;
+
+    private Material ownerMaterial;
+    private Color originalColor;
+
+    private const string baseColorName = "_BaseColor";
 
     public Player GetPlayer { get { return player; } }
 
     protected virtual void Awake()
     {
         healthPoints = GetComponent<HealthPoints>();
+
+        ownerMaterial = renderers[0].material;
+        originalColor = ownerMaterial.GetColor(baseColorName);
 
         healthPoints.OnDied += HandleDie;
         healthPoints.OnTakenDamage += HandleTakeDamage;
@@ -111,10 +125,41 @@ public class Enemy : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, atSpeed * Time.deltaTime);
     }
 
+    private IEnumerator TakeDamageCoroutine()
+    {
+        float timer = 0f;
+
+        while (timer < hitEffectDuration)
+        {
+            foreach (Renderer renderer in renderers)
+            {
+                Color currentColor = Color.Lerp(hurtColor, originalColor, timer / hitEffectDuration);
+                renderer.material.SetColor(baseColorName, currentColor);
+
+            }
+            timer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        foreach (Renderer renderer2 in renderers)
+        {
+            renderer2.material.SetColor(baseColorName, originalColor);
+        }
+
+        takeDamageCoroutine = null;
+    }
+
     private void HandleTakeDamage()
     {
-        Debug.Log("ouch");
+        if (takeDamageCoroutine != null)
+        {
+            StopCoroutine(takeDamageCoroutine);
+        }
+
+        takeDamageCoroutine = StartCoroutine(TakeDamageCoroutine());
     }
+
     private void HandleDie()
     {
         Destroy(gameObject);
