@@ -64,10 +64,10 @@ public class RangedEnemy : Enemy
 
     protected override void Attack()
     {
-        base.Attack();
-
         if (shootTargetCoroutine == null)
         {
+            base.Attack();
+
             shootTargetCoroutine = StartCoroutine(ShootTarget());
         }
     }

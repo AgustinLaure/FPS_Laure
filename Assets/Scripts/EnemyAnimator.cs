@@ -68,6 +68,8 @@ public class EnemyAnimator : MonoBehaviour
     private void Update()
     {
         fsm.Update();
+
+        Debug.Log(GetAnimationPlaying);
     }
 
     private void OnDestroy()
@@ -86,24 +88,24 @@ public class EnemyAnimator : MonoBehaviour
 
     private class IdleState : IState
     {
-        private EnemyAnimator rangedEnemyAnimator;
+        private EnemyAnimator enemyAnimator;
         private Patroller patroller;
 
-        public IdleState(EnemyAnimator rangedEnemyAnimator, Patroller patroller)
+        public IdleState(EnemyAnimator enemyAnimator, Patroller patroller)
         {
-            this.rangedEnemyAnimator = rangedEnemyAnimator;
+            this.enemyAnimator = enemyAnimator;
             this.patroller = patroller;
         }
         public void Enter()
         {
-            rangedEnemyAnimator.animator.SetInteger(rangedEnemyAnimator.controllerStateHash, 0);
+            enemyAnimator.animator.SetInteger(enemyAnimator.controllerStateHash, 0);
         }
 
         public void Update()
         {
             if (patroller.GetIsMoving)
             {
-                rangedEnemyAnimator.fsm.TryChange<IdleState>(typeof(RunState));
+                enemyAnimator.fsm.TryChange<IdleState>(typeof(RunState));
             }
         }
 
@@ -114,30 +116,30 @@ public class EnemyAnimator : MonoBehaviour
 
         public void OnAttack()
         {
-            rangedEnemyAnimator.fsm.TryChange<IdleState>(typeof(AttackState));
+            enemyAnimator.fsm.TryChange<IdleState>(typeof(AttackState));
         }
     }
 
     private class RunState : IState
     {
-        private EnemyAnimator rangedEnemyAnimator;
+        private EnemyAnimator enemyAnimator;
         private Patroller patroller;
 
-        public RunState(EnemyAnimator rangedEnemyAnimator, Patroller patroller)
+        public RunState(EnemyAnimator enemyAnimator, Patroller patroller)
         {
-            this.rangedEnemyAnimator = rangedEnemyAnimator;
+            this.enemyAnimator = enemyAnimator;
             this.patroller = patroller;
         }
         public void Enter()
         {
-            rangedEnemyAnimator.animator.SetInteger(rangedEnemyAnimator.controllerStateHash, 1);
+            enemyAnimator.animator.SetInteger(enemyAnimator.controllerStateHash, 1);
         }
 
         public void Update()
         {
             if (!patroller.GetIsMoving)
             {
-                rangedEnemyAnimator.fsm.TryChange<RunState>(typeof(IdleState));
+                enemyAnimator.fsm.TryChange<RunState>(typeof(IdleState));
             }
         }
 
@@ -148,50 +150,52 @@ public class EnemyAnimator : MonoBehaviour
 
         public void OnAttack()
         {
-            rangedEnemyAnimator.fsm.TryChange<RunState>(typeof(AttackState));
+            enemyAnimator.fsm.TryChange<RunState>(typeof(AttackState));
         }
     }
 
     private class AttackState : IState
     {
-        private EnemyAnimator rangedEnemyAnimator;
+        private EnemyAnimator enemyAnimator;
         private Patroller patroller;
         private Animator animator;
-
-        public AttackState(EnemyAnimator rangedEnemyAnimator, Patroller patroller, Animator animator)
+        
+        public AttackState(EnemyAnimator enemyAnimator, Patroller patroller, Animator animator)
         {
-            this.rangedEnemyAnimator = rangedEnemyAnimator;
+            this.enemyAnimator = enemyAnimator;
             this.patroller = patroller;
             this.animator = animator;
         }
         public void Enter()
         {
-            rangedEnemyAnimator.animator.SetInteger(rangedEnemyAnimator.controllerStateHash, 2);
+            enemyAnimator.animator.SetInteger(enemyAnimator.controllerStateHash, 2);
+        
+            animator.Play(enemyAnimator.attackAnimHash, 0, 0f);
         }
-
+        
         public void Update()
         {
-            if (UnityUtils.CurrentAnimationEnded(rangedEnemyAnimator.attackAnimHash, animator))
+            if (UnityUtils.CurrentAnimationEnded(enemyAnimator.attackAnimHash, animator))
             {
                 if (patroller.GetIsMoving)
                 {
-                    rangedEnemyAnimator.fsm.TryChange<AttackState>(typeof(RunState));
+                    enemyAnimator.fsm.TryChange<AttackState>(typeof(RunState));
                 }
                 else
                 {
-                    rangedEnemyAnimator.fsm.TryChange<AttackState>(typeof(IdleState));
+                    enemyAnimator.fsm.TryChange<AttackState>(typeof(IdleState));
                 }
             }
         }
-
+        
         public void Exit()
         {
-
+        
         }
-
+        
         public void OnAttack()
         {
-            rangedEnemyAnimator.fsm.TryChange<IdleState>(typeof(AttackState));
+            enemyAnimator.fsm.TryChange<AttackState>(typeof(AttackState));
         }
     }
 }
