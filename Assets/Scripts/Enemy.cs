@@ -30,9 +30,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float hitEffectDuration;
 
     protected Patroller patroller;
-    private Chaser chaser;
+    protected Chaser chaser;
     protected Perception perception;
     protected HealthPoints healthPoints;
+    protected EnemyAnimator animator;
 
     [SerializeField] protected LayerMask targetLayerMask;
 
@@ -53,6 +54,8 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Awake()
     {
+        animator = GetComponent<EnemyAnimator>();
+
         healthPoints = GetComponent<HealthPoints>();
 
         ownerMaterial = renderers[0].material;

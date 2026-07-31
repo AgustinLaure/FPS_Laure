@@ -26,6 +26,7 @@ public class Perception : MonoBehaviour
 
     public Transform GetTarget { get { return targetTransform; } }
 
+
     private void Update()
     {
         CheckTargetVisibility();
