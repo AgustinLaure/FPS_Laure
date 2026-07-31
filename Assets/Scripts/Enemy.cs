@@ -29,6 +29,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected Renderer[] renderers;
     [SerializeField] private Color hurtColor;
     [SerializeField] private float hitEffectDuration;
+    [SerializeField] private AudioSource attackSound;
+    [SerializeField] private AudioSource dieSound;
+    [SerializeField] private AudioSource walkSound;
 
     protected Patroller patroller;
     protected Chaser chaser;
@@ -52,6 +55,8 @@ public class Enemy : MonoBehaviour
     private const string baseColorName = "_BaseColor";
 
     public Player GetPlayer { get { return player; } }
+
+    public AudioSource GetWalkSound { get { return walkSound; } }
 
     protected virtual void Awake()
     {
@@ -116,6 +121,8 @@ public class Enemy : MonoBehaviour
     protected virtual void Attack()
     {
         OnAttacked?.Invoke();
+
+        AudioSource.PlayClipAtPoint(attackSound.clip, transform.position);
     }
 
     protected void RotateTowardsPlayer(float atSpeed)
@@ -167,6 +174,8 @@ public class Enemy : MonoBehaviour
     private void HandleDie()
     {
         OnDied?.Invoke(this);
+
+        AudioSource.PlayClipAtPoint(dieSound.clip, transform.position);
 
         Destroy(gameObject);
     }

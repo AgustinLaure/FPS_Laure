@@ -40,10 +40,10 @@ public class MeleeEnemy : Enemy
 
     protected override void Attack()
     {
-        base.Attack();
-
         if (attackCoroutine == null)
         {
+            base.Attack();
+
             if (enemyAnimator.GetIsAttackAnimationPlaying)
             {
                 attackCoroutine = StartCoroutine(AttackCoroutine());

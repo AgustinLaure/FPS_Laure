@@ -1,10 +1,14 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 public class EnemyAnimator : MonoBehaviour
 {
     [SerializeField] private GameObject rendererObject;
+
+    private AudioSource runSound;
     private Patroller patroller;
     private Enemy enemy;
     private Player player;
@@ -41,13 +45,15 @@ public class EnemyAnimator : MonoBehaviour
 
     private void Start()
     {
+        runSound = enemy.GetWalkSound;
+
         player = GameObject.FindWithTag(playerTag).GetComponent<Player>();
         playerHealthPoints = player.GetHealthPoints;
 
         IdleState idleState = new IdleState(this, patroller);
         enemy.OnAttacked += idleState.OnAttack;
 
-        RunState runState = new RunState(this, patroller);
+        RunState runState = new RunState(this, patroller, runSound);
         enemy.OnAttacked += runState.OnAttack;
 
         AttackState attackState = new AttackState(this, patroller, animator);
@@ -122,15 +128,19 @@ public class EnemyAnimator : MonoBehaviour
     {
         private EnemyAnimator enemyAnimator;
         private Patroller patroller;
+        private AudioSource runSound;
 
-        public RunState(EnemyAnimator enemyAnimator, Patroller patroller)
+        public RunState(EnemyAnimator enemyAnimator, Patroller patroller, AudioSource runSound)
         {
             this.enemyAnimator = enemyAnimator;
             this.patroller = patroller;
+            this.runSound = runSound;
         }
         public void Enter()
         {
             enemyAnimator.animator.SetInteger(enemyAnimator.controllerStateHash, 1);
+
+            runSound.Play();
         }
 
         public void Update()
@@ -143,7 +153,7 @@ public class EnemyAnimator : MonoBehaviour
 
         public void Exit()
         {
-
+            runSound.Stop();
         }
 
         public void OnAttack()
@@ -157,20 +167,21 @@ public class EnemyAnimator : MonoBehaviour
         private EnemyAnimator enemyAnimator;
         private Patroller patroller;
         private Animator animator;
-        
+
         public AttackState(EnemyAnimator enemyAnimator, Patroller patroller, Animator animator)
         {
             this.enemyAnimator = enemyAnimator;
             this.patroller = patroller;
             this.animator = animator;
         }
+
         public void Enter()
         {
             enemyAnimator.animator.SetInteger(enemyAnimator.controllerStateHash, 2);
-        
+
             animator.Play(enemyAnimator.attackAnimHash, 0, 0f);
         }
-        
+
         public void Update()
         {
             if (UnityUtils.CurrentAnimationEnded(enemyAnimator.attackAnimHash, animator))
@@ -185,12 +196,12 @@ public class EnemyAnimator : MonoBehaviour
                 }
             }
         }
-        
+
         public void Exit()
         {
-        
+
         }
-        
+
         public void OnAttack()
         {
             enemyAnimator.fsm.TryChange<AttackState>(typeof(AttackState));

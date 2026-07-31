@@ -10,6 +10,8 @@ public class Kamikaze : Enemy
     [SerializeField] private SphereCollider explosionTriggerArea;
     [SerializeField] private SphereCollider explosionRadiusArea;
     [SerializeField] private ParticleSystem explosionParticles;
+    [SerializeField] private AudioSource alertSound;
+    [SerializeField] private AudioSource explosionSound;
     [SerializeField] private float explosionDamage;
     [SerializeField] private float timeToExplode = 2f;
 
@@ -62,7 +64,11 @@ public class Kamikaze : Enemy
 
     private IEnumerator BombTimerCoroutine()
     {
+        alertSound.Play();
+
         yield return new WaitForSeconds(timeToExplode);
+
+        alertSound.Stop();
 
         Explode();
 
@@ -99,5 +105,17 @@ public class Kamikaze : Enemy
         {
             renderer.enabled = false;
         }
+
+        GameObject tempSound = new GameObject("ExplosionSound");
+
+        AudioSource tempAudioSource = tempSound.AddComponent<AudioSource>();
+
+        tempAudioSource.clip = explosionSound.clip;
+        tempAudioSource.spatialBlend = 0f;
+        tempAudioSource.volume = 1f;
+
+        tempAudioSource.Play();
+
+        Destroy(tempSound,tempAudioSource.clip.length);
     }
 }

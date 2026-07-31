@@ -9,6 +9,9 @@ public abstract class Gun : MonoBehaviour
 
     [SerializeField] private ParticleSystem muzzleParticle;
     [SerializeField] private GameObject bulletImpactDecalPrefab;
+    [SerializeField] private AudioSource emptyGunSound;
+    [SerializeField] private AudioSource shotSound;
+    [SerializeField] private AudioSource reloadSound;
     [SerializeField] private int maxAmmo;
     [SerializeField] private float reloadTime;
     [SerializeField] private float timePerShot;
@@ -24,9 +27,9 @@ public abstract class Gun : MonoBehaviour
 
     private LayerMask ownerMask;
 
-    public LayerMask SetOwnerMask 
+    public LayerMask SetOwnerMask
     {
-        set 
+        set
         {
             ownerMask = ~(value | LayerMask.GetMask("NonHitteable"));
         }
@@ -83,44 +86,57 @@ public abstract class Gun : MonoBehaviour
 
     public virtual void Shoot(Vector3 shootPos, Vector3 shootDir)
     {
-        if (currentAmmo > 0f && shootCooldown <= 0f && reloadCoroutine == null)
+        if (currentAmmo > 0f)
         {
-            if (Physics.Raycast(shootPos, shootDir, out RaycastHit hit, shootDistance, ownerMask, QueryTriggerInteraction.Ignore))
+            if (shootCooldown <= 0f)
             {
-                Debug.Log(hit.transform.position);
-
-                if (hit.transform.CompareTag("Environment"))
+                if (reloadCoroutine == null)
                 {
-                    Quaternion decalOrientation = Quaternion.LookRotation(-hit.normal);
+                    shotSound.Play();
 
-                    GameObject decal = Instantiate(bulletImpactDecalPrefab, hit.point, decalOrientation);
-
-                    decal.transform.SetParent(hit.transform);
-                }
-                if (hit.transform.CompareTag(targetTag))
-                {
-                    HealthPoints targetHealthPoints = hit.transform.gameObject.GetComponent<HealthPoints>();
-
-                    if (targetHealthPoints != null)
+                    if (Physics.Raycast(shootPos, shootDir, out RaycastHit hit, shootDistance, ownerMask, QueryTriggerInteraction.Ignore))
                     {
-                        targetHealthPoints.TakeDamage(damage);
+                        Debug.Log(hit.transform.position);
+
+                        if (hit.transform.CompareTag("Environment"))
+                        {
+                            Quaternion decalOrientation = Quaternion.LookRotation(-hit.normal);
+
+                            GameObject decal = Instantiate(bulletImpactDecalPrefab, hit.point, decalOrientation);
+
+                            decal.transform.SetParent(hit.transform);
+                        }
+                        if (hit.transform.CompareTag(targetTag))
+                        {
+                            HealthPoints targetHealthPoints = hit.transform.gameObject.GetComponent<HealthPoints>();
+
+                            if (targetHealthPoints != null)
+                            {
+                                targetHealthPoints.TakeDamage(damage);
+                            }
+                        }
                     }
+
+                    if (recoilCoroutine != null)
+                    {
+                        StopCoroutine(recoilCoroutine);
+                    }
+
+                    muzzleParticle.Play();
+
+                    recoilCoroutine = StartCoroutine(RecoilCoroutine());
+
+                    currentAmmo--;
+                    shootCooldown = timePerShot;
+
+                    OnCurrentAmmoValueChanged?.Invoke(currentAmmo);
                 }
             }
 
-            if (recoilCoroutine != null)
-            {
-                StopCoroutine(recoilCoroutine);
-            }
-
-            muzzleParticle.Play();
-
-            recoilCoroutine = StartCoroutine(RecoilCoroutine());
-
-            currentAmmo--;
-            shootCooldown = timePerShot;
-
-            OnCurrentAmmoValueChanged?.Invoke(currentAmmo);
+        }
+        else
+        {
+            emptyGunSound.Play();
         }
     }
 
@@ -141,6 +157,8 @@ public abstract class Gun : MonoBehaviour
         reloadCoroutine = null;
 
         OnCurrentAmmoValueChanged?.Invoke(currentAmmo);
+
+        reloadSound.Play();
     }
 
     private IEnumerator RecoilCoroutine()

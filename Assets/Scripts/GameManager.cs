@@ -62,9 +62,12 @@ public class GameManager : MonoBehaviour
         foreach (GameObject enemyInScene in enemiesInScene)
         {
             Enemy enemyComponent = enemyInScene.GetComponent<Enemy>();
-            enemies.Add(enemyComponent);
 
-            enemyComponent.OnDied += HandleEnemyDeath;
+            if (enemyComponent != null)
+            {
+                enemies.Add(enemyComponent);
+                enemyComponent.OnDied += HandleEnemyDeath;
+            }
         }
 
         playerHud.UpdateEnemiesLeft(enemies.Count);

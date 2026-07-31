@@ -14,7 +14,7 @@ public class AudioManager
     private const float initialSfxVolume = 1f;
     private const float initialMusicVolume = 1f;
 
-    private const float gameplayMusicVolume = 0.1f;
+    private const float gameplayMusicVolume = 0.052f;
 
     private string wasGameOpenedBefore = "WasGameOpenedBefore";
     private const string masterVolumeKey = "MasterVolume";
