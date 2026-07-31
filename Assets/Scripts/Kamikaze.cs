@@ -45,17 +45,17 @@ public class Kamikaze : Enemy
 
     protected override void Attack()
     {
-        base.Attack();
-
-        patroller.enabled = false;
-        chaser.enabled = false;
-        healthPoints.enabled = false;
-        perception.enabled = false;
-        animator.enabled = false;
-        collider.enabled = false;
-
         if (bombTimerCoroutine == null)
         {
+            base.Attack();
+
+            patroller.enabled = false;
+            chaser.enabled = false;
+            healthPoints.enabled = false;
+            perception.enabled = false;
+            animator.enabled = false;
+            collider.enabled = false;
+
             bombTimerCoroutine = StartCoroutine(BombTimerCoroutine());
         }
     }

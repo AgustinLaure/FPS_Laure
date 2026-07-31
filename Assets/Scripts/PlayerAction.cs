@@ -1,12 +1,12 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 
 public class PlayerAction : MonoBehaviour
 {
+    public event Action OnPause;
+
     [SerializeField] private Transform cameraTransform;
     private Player player;
 
@@ -19,32 +19,40 @@ public class PlayerAction : MonoBehaviour
 
     private void Update()
     {
-        if (player.GetCurrentTool != CURRENT_TOOL.None && swapGunCoroutine == null)
+        if (Input.GetButtonDown("Pause"))
         {
-            if (Input.GetButtonDown("Shoot"))
+            OnPause?.Invoke();
+        }
+
+        if (Time.timeScale > 0f)
+        {
+            if (player.GetCurrentTool != CURRENT_TOOL.None && swapGunCoroutine == null)
             {
-                player.GetGun.Shoot(cameraTransform.position, cameraTransform.forward);
+                if (Input.GetButtonDown("Shoot"))
+                {
+                    player.GetGun.Shoot(cameraTransform.position, cameraTransform.forward);
+                }
+
+                if (Input.GetButtonDown("Reload"))
+                {
+                    player.GetGun.Reload();
+                }
             }
 
-            if (Input.GetButtonDown("Reload"))
+            if (Input.GetButtonDown("DrawPistol"))
             {
-                player.GetGun.Reload();
+                TrySwapTool(CURRENT_TOOL.Pistol);
             }
-        }
 
-        if (Input.GetButtonDown("DrawPistol"))
-        {
-            TrySwapTool(CURRENT_TOOL.Pistol);
-        }
+            if (Input.GetButtonDown("DrawRifle"))
+            {
+                TrySwapTool(CURRENT_TOOL.Rifle);
+            }
 
-        if (Input.GetButtonDown("DrawRifle"))
-        {
-            TrySwapTool(CURRENT_TOOL.Rifle);
-        }
-
-        if (Input.GetButtonDown("SwapHands"))
-        {
-            TrySwapTool(CURRENT_TOOL.None);
+            if (Input.GetButtonDown("SwapHands"))
+            {
+                TrySwapTool(CURRENT_TOOL.None);
+            }
         }
     }
 
