@@ -6,6 +6,8 @@ public class Kamikaze : Enemy
     public Player SetPlayer { set { player = value; } }
 
     [SerializeField] private SphereCollider explosionTriggerArea;
+    [SerializeField] private SphereCollider explosionRadiusArea;
+    [SerializeField] private ParticleSystem explosionParticles;
     [SerializeField] private float explosionDamage;
     [SerializeField] private float timeToExplode = 2f;
 
@@ -58,10 +60,23 @@ public class Kamikaze : Enemy
         yield return new WaitForSeconds(timeToExplode);
 
         Explode();
+
+        bool hasEndedParticleAnimation = false;
+
+        while (!hasEndedParticleAnimation)
+        {
+            hasEndedParticleAnimation = !explosionParticles.isPlaying;
+
+            yield return new WaitForSeconds(1f);
+        }
+
+        Destroy(gameObject);
     }
 
     private void Explode()
     {
+        explosionParticles.Play();
+
         Collider[] colliders = Physics.OverlapSphere(explosionTriggerArea.transform.TransformPoint(explosionTriggerArea.center),
                 explosionTriggerArea.radius,
                 targetLayerMask,
@@ -75,6 +90,9 @@ public class Kamikaze : Enemy
             }
         }
 
-        Destroy(gameObject);
+        foreach (Renderer renderer in renderers)
+        {
+            renderer.enabled = false;
+        }
     }
 }

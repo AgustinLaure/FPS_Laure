@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
     protected const string playerTag = "Player";
     protected const string enemyTag = "Enemy";
 
-    [SerializeField] private Renderer[] renderers;
+    [SerializeField] protected Renderer[] renderers;
     [SerializeField] private Color hurtColor;
     [SerializeField] private float hitEffectDuration;
 
