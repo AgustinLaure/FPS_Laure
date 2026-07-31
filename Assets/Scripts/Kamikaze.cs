@@ -5,6 +5,8 @@ public class Kamikaze : Enemy
 {
     public Player SetPlayer { set { player = value; } }
 
+    private SphereCollider collider;
+
     [SerializeField] private SphereCollider explosionTriggerArea;
     [SerializeField] private SphereCollider explosionRadiusArea;
     [SerializeField] private ParticleSystem explosionParticles;
@@ -16,6 +18,8 @@ public class Kamikaze : Enemy
     protected override void Awake()
     {
         base.Awake();
+
+        collider = GetComponent<SphereCollider>();
     }
 
     protected override void Start()
@@ -48,6 +52,7 @@ public class Kamikaze : Enemy
         healthPoints.enabled = false;
         perception.enabled = false;
         animator.enabled = false;
+        collider.enabled = false;
 
         if (bombTimerCoroutine == null)
         {
