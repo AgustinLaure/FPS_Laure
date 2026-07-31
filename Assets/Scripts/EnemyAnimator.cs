@@ -68,8 +68,6 @@ public class EnemyAnimator : MonoBehaviour
     private void Update()
     {
         fsm.Update();
-
-        Debug.Log(GetAnimationPlaying);
     }
 
     private void OnDestroy()

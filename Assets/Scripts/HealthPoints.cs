@@ -44,4 +44,10 @@ public class HealthPoints : MonoBehaviour
             OnDied?.Invoke();
         }
     }
+
+    private void OnDestroy()
+    {
+        OnDied = null;
+        OnTakenDamage = null;
+    }
 }

@@ -1,10 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Player player;
+
+    [SerializeField] private float timeAfterWinning;
 
     [SerializeField] private CanvasGroup pauseScreenCanvasGroup;
     [SerializeField] private Button pauseScreenResumeButton;
@@ -29,14 +34,20 @@ public class GameManager : MonoBehaviour
 
     private const string loseText = "You lost!";
     private const string winText = "You win!";
+    private const string enemyTag = "Enemy";
 
     private bool isPaused = false;
     private bool hasLost = false;
 
+    private List<Enemy> enemies = new List<Enemy>();
+
+    [SerializeField] private PlayerHud playerHud;
     private PlayerAction playerAction;
     private PlayerMovement playerMovement;
 
     public bool GetIsPaused { get { return isPaused; } }
+
+    private Coroutine winGameCoroutine = null;
 
     private void Awake()
     {
@@ -46,6 +57,18 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
+        GameObject[] enemiesInScene = GameObject.FindGameObjectsWithTag(enemyTag);
+
+        foreach (GameObject enemyInScene in enemiesInScene)
+        {
+            Enemy enemyComponent = enemyInScene.GetComponent<Enemy>();
+            enemies.Add(enemyComponent);
+
+            enemyComponent.OnDied += HandleEnemyDeath;
+        }
+
+        playerHud.UpdateEnemiesLeft(enemies.Count);
+
         if (!ServiceLocator.Instance.GetService<AudioManager>().GetGameplayMusic.isPlaying)
         {
             ServiceLocator.Instance.GetService<AudioManager>().GetGameplayMusic.Play();
@@ -69,6 +92,19 @@ public class GameManager : MonoBehaviour
         settingsSfxSlider.onValueChanged.AddListener(HandleSfxVolumeChange);
     }
 
+    private void Update()
+    {
+        if (enemies.Count <= 0)
+        {
+            if (winGameCoroutine == null)
+            {
+                winGameCoroutine = StartCoroutine(WinGameCoroutine());
+            }
+        }
+
+        Debug.Log(enemies.Count);
+    }
+
     private void OnDestroy()
     {
         playerAction.OnPause -= HandlePlayerPause;
@@ -84,6 +120,11 @@ public class GameManager : MonoBehaviour
         settingsMasterSlider.onValueChanged.RemoveListener(HandleMasterVolumeChange);
         settingsMusicSlider.onValueChanged.RemoveListener(HandleMusicVolumeChange);
         settingsSfxSlider.onValueChanged.RemoveListener(HandleSfxVolumeChange);
+
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.OnDied -= HandleEnemyDeath;
+        }
     }
 
     private void SetPause(bool state)
@@ -110,11 +151,24 @@ public class GameManager : MonoBehaviour
         playerMovement.enabled = false;
     }
 
+    private IEnumerator WinGameCoroutine()
+    {
+        yield return new WaitForSeconds(timeAfterWinning);
+
+        EndGame();
+    }
+
     private void HandlePlayerDeath()
     {
         hasLost = true;
 
         EndGame();
+    }
+
+    private void HandleEnemyDeath(Enemy enemy)
+    {
+        enemies.Remove(enemy);
+        playerHud.UpdateEnemiesLeft(enemies.Count);
     }
 
     private void HandleWinTrigger(Collider2D collider)

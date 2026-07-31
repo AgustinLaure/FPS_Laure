@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
     }
 
     public event Action OnAttacked;
+    public event Action<Enemy> OnDied;
 
     [SerializeField] protected Player player;
     protected const string playerTag = "Player";
@@ -165,6 +166,8 @@ public class Enemy : MonoBehaviour
 
     private void HandleDie()
     {
+        OnDied?.Invoke(this);
+
         Destroy(gameObject);
     }
 
@@ -183,6 +186,9 @@ public class Enemy : MonoBehaviour
 
         healthPoints.OnDied -= HandleDie;
         healthPoints.OnTakenDamage -= HandleTakeDamage;
+
+        OnAttacked = null;
+        OnDied = null;
     }
 
     private class IdleState : IState

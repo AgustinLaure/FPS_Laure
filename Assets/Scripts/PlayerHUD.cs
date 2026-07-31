@@ -8,8 +8,11 @@ public class PlayerHud : MonoBehaviour
 
     [SerializeField] private CanvasGroup armedHUDCanvasGroup;
     [SerializeField] private TextMeshProUGUI currentAmmoTMP;
-    [SerializeField] private TextMeshProUGUI maxAmmoTextTMP;
+    [SerializeField] private TextMeshProUGUI maxAmmoTMP;
+    [SerializeField] private TextMeshProUGUI remainingEnemiesTMP;
     [SerializeField] private Image healthBar;
+
+    private const string remainingEnemiesText = "Remaining enemies: ";
 
     private void Awake()
     {
@@ -19,10 +22,15 @@ public class PlayerHud : MonoBehaviour
         player.OnHealthValueChanged += HandlePlayerHealthValueChanged;
     }
 
+    public void UpdateEnemiesLeft(int enemiesLeft)
+    {
+        remainingEnemiesTMP.text = remainingEnemiesText + enemiesLeft.ToString();
+    }
+
     private void HandlePlayerGunSwap(Gun gun)
     {
         currentAmmoTMP.text = gun.GetCurrentAmmo.ToString();
-        maxAmmoTextTMP.text = gun.GetMaxAmmo.ToString();
+        maxAmmoTMP.text = gun.GetMaxAmmo.ToString();
     }
 
     private void HandlePlayerAmmoValueChanged(int value)

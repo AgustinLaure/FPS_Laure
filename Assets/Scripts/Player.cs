@@ -75,11 +75,6 @@ public class Player : MonoBehaviour
         AddGun(CURRENT_TOOL.Pistol);
     }
 
-    private void Update()
-    {
-
-    }
-
     private void AddGun(CURRENT_TOOL gunName)
     {
         Vector3 worldPosition = cameraTransform.TransformPoint(gunPresets[(int)gunName].localPosition);
