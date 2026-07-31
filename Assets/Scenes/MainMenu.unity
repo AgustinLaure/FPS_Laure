@@ -923,7 +923,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 377641789}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -1234,9 +1234,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Art: "Character - Luiz Melo (Asset Store)", "UI - kenney", "Gem - FerroEntertainment
-    (Asset Store), "Music - marcelofernandezmusic (Itch.io), "UI Art - dogobongocat
-    (Itchio)" '
+  m_text: 'Art: (UI) Kenney,  (Guns) Infima Games - Asset Store, (CrossHair) OccaSoftware
+    - Asset Store, (Terrain Textures) ALP - Asset Store, (Terrain Textures) Nobiax
+    / Yughues - Asset Store, (Map) Dmitrii Kutsenko - Asset Store, (Ranged Enemy)
+    Polygon Blacksmith - Asset Store, (Melee Enemy) Pxltiger - Asset Store, (Kamikaze)
+    Ragrizzz Demon - Asset Store, (Terrain Textures) Game Buffs - Asset Store, (Cemetery)
+    Valentine Kurakin - Asset Store,  (Terrain Textures) John''s Junkyard Assets
+    - Asset Store, (Music) Augusto Mazzoli - Asset Store'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1653,7 +1657,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 974139920}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -2046,7 +2050,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Programmers: Agust\xEDn Laure"
+  m_text: "Programmer: Agust\xEDn Laure"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
