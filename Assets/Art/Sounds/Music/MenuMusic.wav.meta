@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 803eaf242bc8749428b688ca7b961e9f
+guid: 5738bf04d5a0b7645a59d4b6f8715ca6
 AudioImporter:
   externalObjects: {}
   serializedVersion: 6
@@ -25,5 +25,5 @@ AssetOrigin:
   productId: 219907
   packageName: Military Shooter Music Pack
   packageVersion: 1.0
-  assetPath: Assets/Military Shooter Music Pack/Loops/Urban Guerrilla (ordinary).wav
+  assetPath: Assets/Military Shooter Music Pack/Loops/Ultimate Assault (tough).wav
   uploadId: 494086
