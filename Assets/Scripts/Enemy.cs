@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour
         Camper
     }
 
+    public event Action OnAttacked;
+
     [SerializeField] protected Player player;
     protected const string playerTag = "Player";
     protected const string enemyTag = "Enemy";
@@ -90,6 +92,11 @@ public class Enemy : MonoBehaviour
     protected virtual void Update()
     {
         fsm.Update();
+    }
+
+    protected virtual void Attack()
+    {
+        OnAttacked?.Invoke();
     }
 
     private void HandleTakeDamage()

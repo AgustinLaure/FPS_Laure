@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class RangedEnemy : Enemy
 {
-    public event Action OnShot;
-
     [SerializeField] private float damage;
     [SerializeField] private float shootColdown;
     [SerializeField] private GameObject target;
@@ -39,23 +37,29 @@ public class RangedEnemy : Enemy
         if (perception.GetIsTargetVisible && !patroller.GetIsMoving)
         {
             Vector3 direction = player.transform.position - transform.position;
-            
+
             direction.y = 0f;
-            
+
             Quaternion targetRotation = Quaternion.LookRotation(direction);
-            
+
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-            if (shootTargetCoroutine == null)
-            {
-                shootTargetCoroutine = StartCoroutine(ShootTarget());
-            }
+            Attack();
+        }
+    }
+
+    protected override void Attack()
+    {
+        base.Attack();
+
+        if (shootTargetCoroutine == null)
+        {
+            shootTargetCoroutine = StartCoroutine(ShootTarget());
         }
     }
 
     private IEnumerator ShootTarget()
     {
-        OnShot?.Invoke();
         shootParticle.Play();
 
         bool landedHit = UnityEngine.Random.Range(1, 101) <= hitRatio;

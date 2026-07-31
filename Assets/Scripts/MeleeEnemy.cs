@@ -21,10 +21,17 @@ public class MeleeEnemy : Enemy
 
         if (isAtRange)
         {
-            if (attackCoroutine == null)
-            {
-                attackCoroutine = StartCoroutine(AttackCoroutine());
-            }
+            Attack();
+        }
+    }
+
+    protected override void Attack()
+    {
+        base.Attack();
+
+        if (attackCoroutine == null)
+        {
+            attackCoroutine = StartCoroutine(AttackCoroutine());
         }
     }
 
