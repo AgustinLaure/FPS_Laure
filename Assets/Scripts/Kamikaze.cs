@@ -89,7 +89,7 @@ public class Kamikaze : Enemy
         explosionParticles.Play();
 
         Collider[] colliders = Physics.OverlapSphere(explosionTriggerArea.transform.TransformPoint(explosionTriggerArea.center),
-                explosionTriggerArea.radius,
+                explosionRadiusArea.radius,
                 targetLayerMask,
                 QueryTriggerInteraction.Ignore);
 

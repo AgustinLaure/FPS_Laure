@@ -13,6 +13,7 @@ public class Chaser : MonoBehaviour
 
     private NavMeshAgent navMeshAgent;
     private GameObject playerGameObject;
+    private Perception perception;
 
     //In seconds
     private const float pathFindingInterval = 0.2f;
@@ -26,6 +27,7 @@ public class Chaser : MonoBehaviour
     private void Awake()
     {
         navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+        perception = gameObject.GetComponent<Perception>();
     }
 
     private void Start()
@@ -49,12 +51,15 @@ public class Chaser : MonoBehaviour
 
                 if (pathFindCoroutine == null)
                 {
-                    StartCoroutine(PathFindCoroutine());
+                    pathFindCoroutine = StartCoroutine(PathFindCoroutine());
                 }
             }
             else
             {
-                navMeshAgent.isStopped = true;
+                if (perception.GetIsTargetVisible)
+                {
+                    navMeshAgent.isStopped = true;
+                }
             }
         }
     }

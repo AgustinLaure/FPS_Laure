@@ -215,7 +215,7 @@ public class Enemy : MonoBehaviour
 
         public void Enter()
         {
-            currentActionState = ACTION_STATE.Chasing;
+            currentActionState = ACTION_STATE.Idle;
         }
 
         public void Update()
@@ -228,12 +228,11 @@ public class Enemy : MonoBehaviour
 
         public void Exit()
         {
-            currentActionState = ACTION_STATE.Idle;
         }
 
         public void OnDie()
         {
-            enemy.fsm.TryChange<ChaseState>(typeof(DeadState));
+            enemy.fsm.TryChange<IdleState>(typeof(DeadState));
         }
     }
 
@@ -337,7 +336,6 @@ public class Enemy : MonoBehaviour
         {
             if (perception.GetIsTargetVisible)
             {
-                currentActionState = ACTION_STATE.Chasing;
                 chaser.StartChase();
 
                 timeSinceLastSawPlayer = 0f;
