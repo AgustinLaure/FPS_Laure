@@ -8,8 +8,8 @@ public class RangedEnemy : Enemy
     [SerializeField] private float shootColdown;
     [SerializeField] private GameObject target;
     [SerializeField] private ParticleSystem shootParticle;
-    [SerializeField] private float rotationSpeed;
-    private Patroller patroller;
+    [SerializeField] private float alertedRotationSpeed;
+    private bool isAlerted = false;
 
     //0-100 values
     [SerializeField] private float hitRatio;
@@ -19,6 +19,8 @@ public class RangedEnemy : Enemy
     protected override void Awake()
     {
         base.Awake();
+
+        healthPoints.OnTakenDamage += HandleTakeDamage;
 
         patroller = GetComponent<Patroller>();
     }
@@ -36,16 +38,28 @@ public class RangedEnemy : Enemy
 
         if (perception.GetIsTargetVisible && !patroller.GetIsMoving)
         {
-            Vector3 direction = player.transform.position - transform.position;
-
-            direction.y = 0f;
-
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
+            RotateTowardsPlayer(targetTrackSpeed);
             Attack();
         }
+
+        if (isAlerted)
+        {
+            if (!perception.GetIsTargetVisible)
+            {
+                RotateTowardsPlayer(alertedRotationSpeed);
+            }
+            else
+            {
+                isAlerted = false;
+            }
+        }
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        healthPoints.OnTakenDamage -= HandleTakeDamage;
     }
 
     protected override void Attack()
@@ -77,5 +91,10 @@ public class RangedEnemy : Enemy
         yield return new WaitForSeconds(shootColdown);
 
         shootTargetCoroutine = null;
+    }
+
+    private void HandleTakeDamage()
+    {
+        isAlerted = true;
     }
 }

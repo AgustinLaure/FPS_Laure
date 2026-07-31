@@ -30,6 +30,11 @@ public class MeleeEnemy : Enemy
         if (isAtRange)
         {
             Attack();
+
+            if (!patroller.GetIsMoving)
+            {
+                RotateTowardsPlayer(targetTrackSpeed);
+            }
         }
     }
 

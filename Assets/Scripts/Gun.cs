@@ -85,7 +85,7 @@ public abstract class Gun : MonoBehaviour
     {
         if (currentAmmo > 0f && shootCooldown <= 0f && reloadCoroutine == null)
         {
-            if (Physics.Raycast(shootPos, shootDir, out RaycastHit hit, shootDistance, ownerMask, QueryTriggerInteraction.Collide))
+            if (Physics.Raycast(shootPos, shootDir, out RaycastHit hit, shootDistance, ownerMask, QueryTriggerInteraction.Ignore))
             {
                 Debug.Log(hit.transform.position);
 

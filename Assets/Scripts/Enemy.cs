@@ -24,10 +24,10 @@ public class Enemy : MonoBehaviour
     protected const string playerTag = "Player";
     protected const string enemyTag = "Enemy";
 
-    private Patroller patroller;
+    protected Patroller patroller;
     private Chaser chaser;
     protected Perception perception;
-    private HealthPoints healthPoints;
+    protected HealthPoints healthPoints;
 
     [SerializeField] protected LayerMask targetLayerMask;
 
@@ -36,6 +36,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private ACTION_STATE currentActionState = ACTION_STATE.Patrolling;
     [SerializeField] private ENEMY_TYPE enemyType;
+    [SerializeField] protected float targetTrackSpeed;
 
     public Player GetPlayer { get { return player; } }
 
@@ -97,6 +98,17 @@ public class Enemy : MonoBehaviour
     protected virtual void Attack()
     {
         OnAttacked?.Invoke();
+    }
+
+    protected void RotateTowardsPlayer(float atSpeed)
+    {
+        Vector3 direction = player.transform.position - transform.position;
+
+        direction.y = 0f;
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, atSpeed * Time.deltaTime);
     }
 
     private void HandleTakeDamage()
