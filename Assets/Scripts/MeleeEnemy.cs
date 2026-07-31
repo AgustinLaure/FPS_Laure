@@ -6,8 +6,16 @@ public class MeleeEnemy : Enemy
     [SerializeField] private float damage;
     [SerializeField] private float attackCooldown;
     [SerializeField] private SphereCollider attackRangeArea;
+    private EnemyAnimator enemyAnimator;
 
     private Coroutine attackCoroutine;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        enemyAnimator = GetComponent<EnemyAnimator>();
+    }
 
     protected override void Update()
     {
@@ -31,7 +39,10 @@ public class MeleeEnemy : Enemy
 
         if (attackCoroutine == null)
         {
-            attackCoroutine = StartCoroutine(AttackCoroutine());
+            if (enemyAnimator.GetIsAttackAnimationPlaying)
+            {
+                attackCoroutine = StartCoroutine(AttackCoroutine());
+            }
         }
     }
 

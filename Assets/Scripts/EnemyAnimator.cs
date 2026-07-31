@@ -11,8 +11,8 @@ public class EnemyAnimator : MonoBehaviour
     private HealthPoints playerHealthPoints;
     protected const string playerTag = "Player";
 
-    private readonly string shootStateName = "Shoot";
-    private int shootAnimHash;
+    private readonly string attackStateName = "Attack";
+    private int attackAnimHash;
 
     private Animator animator;
 
@@ -23,9 +23,14 @@ public class EnemyAnimator : MonoBehaviour
     private int controllerStateHash;
     private readonly string controllerStateVarName = "State";
 
+    public int GetAnimationPlaying { get { return animator.GetInteger(controllerStateHash); } }
+
+    public bool GetIsAttackAnimationPlaying { get { return animator.GetCurrentAnimatorStateInfo(0).shortNameHash == attackAnimHash; } }
+
+
     private void Awake()
     {
-        shootAnimHash = Animator.StringToHash(shootStateName);
+        attackAnimHash = Animator.StringToHash(attackStateName);
 
         animator = rendererObject.GetComponent<Animator>();
         controllerStateHash = Animator.StringToHash(controllerStateVarName);
@@ -166,7 +171,7 @@ public class EnemyAnimator : MonoBehaviour
 
         public void Update()
         {
-            if (UnityUtils.CurrentAnimationEnded(rangedEnemyAnimator.shootAnimHash, animator))
+            if (UnityUtils.CurrentAnimationEnded(rangedEnemyAnimator.attackAnimHash, animator))
             {
                 if (patroller.GetIsMoving)
                 {
