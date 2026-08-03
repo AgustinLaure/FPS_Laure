@@ -53,7 +53,6 @@ public class Kamikaze : Enemy
 
             patroller.enabled = false;
             chaser.enabled = false;
-            healthPoints.enabled = false;
             perception.enabled = false;
             animator.enabled = false;
             collider.enabled = false;
@@ -80,6 +79,9 @@ public class Kamikaze : Enemy
 
             yield return new WaitForSeconds(1f);
         }
+
+        healthPoints.Die();
+        healthPoints.enabled = false;
 
         Destroy(gameObject);
     }
@@ -116,6 +118,6 @@ public class Kamikaze : Enemy
 
         tempAudioSource.Play();
 
-        Destroy(tempSound,tempAudioSource.clip.length);
+        Destroy(tempSound, tempAudioSource.clip.length);
     }
 }

@@ -19,6 +19,12 @@ public class HealthPoints : MonoBehaviour
         this.maxHealth = maxHealth;
     }
 
+    public void Die()
+    {
+        currentHealth = 0;
+        OnDied?.Invoke();
+    }
+
     public void Heal(float amount)
     {
         currentHealth += amount;
