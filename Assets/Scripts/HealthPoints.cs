@@ -5,6 +5,7 @@ public class HealthPoints : MonoBehaviour
 {
     public event Action OnDied;
     public event Action OnTakenDamage;
+    public event Action OnHealed;
 
     [SerializeField] private float currentHealth;
     [SerializeField] private float maxHealth;
@@ -26,6 +27,8 @@ public class HealthPoints : MonoBehaviour
         {
             currentHealth = maxHealth;
         }
+
+        OnHealed?.Invoke();
     }
 
     public void TakeDamage(float amount)

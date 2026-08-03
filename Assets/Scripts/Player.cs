@@ -67,9 +67,9 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         healthPoints = GetComponent<HealthPoints>();
+        healthPoints.OnHealed += HandleHealed;
 
         healthPoints.OnTakenDamage += HandleHealthPointsTakenDamage;
-        healthPoints.OnDied += HandleHealthPointsDied;
 
         AddGun(CURRENT_TOOL.Rifle);
         AddGun(CURRENT_TOOL.Pistol);
@@ -107,19 +107,20 @@ public class Player : MonoBehaviour
         //hurt
     }
 
-    private void HandleHealthPointsDied()
+    private void HandleHealed()
     {
-
+        OnHealthValueChanged?.Invoke(healthPoints.GetCurrentHealth, healthPoints.GetMaxHealth);
     }
 
     private void OnDestroy()
     {
+        healthPoints.OnHealed -= HandleHealed;
+
         foreach (Gun gun in guns)
         {
             gun.OnCurrentAmmoValueChanged -= HandleGunCurrentAmmoValueChanged;
         }
 
         healthPoints.OnTakenDamage += HandleHealthPointsTakenDamage;
-        healthPoints.OnDied += HandleHealthPointsDied;
     }
 }

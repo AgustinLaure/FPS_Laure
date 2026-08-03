@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -32,6 +33,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private AudioSource attackSound;
     [SerializeField] private AudioSource dieSound;
     [SerializeField] private AudioSource walkSound;
+    private Quaternion startingRotation;
 
     protected Patroller patroller;
     protected Chaser chaser;
@@ -60,6 +62,8 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Awake()
     {
+        startingRotation = transform.rotation;
+
         animator = GetComponent<EnemyAnimator>();
 
         healthPoints = GetComponent<HealthPoints>();
@@ -294,6 +298,8 @@ public class Enemy : MonoBehaviour
             if (enemyType == ENEMY_TYPE.Camper && patroller.GetHasReachedDestination)
             {
                 enemy.fsm.TryChange<PatrolState>(typeof(IdleState));
+
+                enemy.transform.rotation = enemy.startingRotation;
             }
         }
 
